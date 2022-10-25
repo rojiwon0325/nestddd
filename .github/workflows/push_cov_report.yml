@@ -1,0 +1,64 @@
+name: 'Test'
+
+on:
+  push:
+    branches: [ _main ]
+    
+jobs:            
+  deploy_coverage:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install
+        run: npm ci
+
+      - name: Build  
+        run: npm run test:cov
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: coverage/lcov-report
+      
+  update_badge:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install
+        run: npm ci
+
+      - name: Build  
+        run:  npx jest --coverage --coverageReporters json-summary     
+
+      - name: Jest coverage comment
+        id: coverageComment
+        uses: MishaKav/jest-coverage-comment@main
+        with:
+          coverage-summary-path: ./coverage/coverage-summary.json
+      
+      - name: Create the Badge
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: schneegans/dynamic-badges-action@v1.5.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3a0a89382b72d637e952daf28d0946e3
+          filename: ${{ secrets.GIST_FILENAME }}
+          label: coverage
+          message: ${{ steps.coverageComment.outputs.coverage }}%
+          color: ${{ steps.coverageComment.outputs.color }}
+          namedLogo: jest
