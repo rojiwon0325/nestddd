@@ -56,8 +56,8 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.5.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: 3a0a89382b72d637e952daf28d0946e3
-          filename: ${{ secrets.GIST_FILENAME }}
+          gistID: GIST_ID
+          filename: GIST_FILENAME.json
           label: coverage
           message: ${{ steps.coverageComment.outputs.coverage }}%
           color: ${{ steps.coverageComment.outputs.color }}
