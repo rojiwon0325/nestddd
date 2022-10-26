@@ -27,7 +27,6 @@ DB_DATABASE
 
 ```
 GIST_SECRET - gist create 권한을 가진 토큰
-GIST_FILENAME
 ```
 
 ## 요구사항 분석
