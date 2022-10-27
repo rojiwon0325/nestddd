@@ -25,7 +25,7 @@ export class UserService {
   }
 
   async findOne(dto: FindOneUserDTO): Promise<IUser> {
-    const user = await this.userRepository.findOne(dto.id);
+    const user = await this.userRepository.findOne(dto);
     if (user == null) {
       throw httpExceptionProvider('404', ExceptionMessage.NotFound);
     }
