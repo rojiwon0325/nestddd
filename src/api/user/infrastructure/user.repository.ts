@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IEntityMapper } from 'src/api/common/interface/mapper.interface';
 import { TypeOrmBaseRepository } from 'src/api/common/provider/repository.base';
 import { Repository } from 'typeorm';
-import { IUser, IUserId } from '../domain/user.interface';
+import { IUser } from '../domain/user.interface';
 import { IUserRepository } from '../domain/repository.interface';
 import { UserEntity } from './user.entity';
 import { UserEntityMapper } from './user.mapper';
 
 @Injectable()
 export class UserRepository
-  extends TypeOrmBaseRepository<IUserId, IUser, UserEntity>
+  extends TypeOrmBaseRepository<IUser, UserEntity>
   implements IUserRepository
 {
   constructor(

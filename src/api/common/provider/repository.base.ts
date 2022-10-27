@@ -1,23 +1,25 @@
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { IEntityMapper } from '../interface/mapper.interface';
 import { IBaseRepository } from '../interface/repository.interface';
 import { BaseAggregate } from '../model/aggregate.base';
 import { TypeOrmBaseEntity } from '../model/typeorm-entity.base';
 
 export abstract class TypeOrmBaseRepository<
-  IId,
-  IAggregate extends BaseAggregate<IId>,
+  IAggregate extends BaseAggregate<number>,
   IRootEntity extends TypeOrmBaseEntity,
-> implements IBaseRepository<IId, IAggregate>
+> implements IBaseRepository<number, IAggregate>
 {
   constructor(
     private readonly mapper: IEntityMapper<IAggregate, IRootEntity>,
     private readonly repository: Repository<IRootEntity>,
   ) {}
 
-  async findOne(id: IId): Promise<IAggregate | null> {
-    const findOption: FindOneOptions = { where: { id } };
-    const entity = await this.repository.findOne(findOption);
+  async findOne({ id }: { id?: number }): Promise<IAggregate | null> {
+    if (typeof id !== 'number') {
+      return null;
+    }
+    const where: FindOptionsWhere<unknown> = { id };
+    const entity = await this.repository.findOne({ where });
     return entity == null ? null : this.mapper.toAggregate(entity);
   }
 
