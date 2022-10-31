@@ -1,4 +1,4 @@
-import { BaseAggregate } from 'src/api/common/base/base-aggregate';
+import { BaseAggregate } from '@API/common/base/base-aggregate';
 import { UserRole } from './user.enum';
 
 export type IUserId = number;

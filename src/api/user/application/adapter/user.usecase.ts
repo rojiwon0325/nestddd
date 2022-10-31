@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { AuthService } from 'src/api/auth/application/adapter/auth.service';
-import { ValidateAuthDTO } from 'src/api/auth/application/dto/auth.application.dto';
-import { IAuthService } from 'src/api/auth/application/port/auth.service.interface';
-import { IAuthResponse } from 'src/api/auth/domain/auth.interface';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { AuthService } from '@API/auth/application/adapter/auth.service';
+import { ValidateAuthDTO } from '@API/auth/application/dto/auth.application.dto';
+import { IAuthService } from '@API/auth/application/port/auth.service.interface';
+import { IAuthResponse } from '@API/auth/domain/auth.interface';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 import { User } from '../../domain/user.aggregate';
 import { IUserResponse } from '../../domain/user.interface';
 import { UserRepository } from '../../infrastructure/adapter/user.repository';

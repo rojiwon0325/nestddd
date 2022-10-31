@@ -1,7 +1,7 @@
-import { TypeOrmBaseEntity } from 'src/api/common/base/base-entity.typeorm';
+import { TypeOrmBaseEntity } from '@API/common/base/base-entity.typeorm';
 import { Column, Entity } from 'typeorm';
 import { IsEnum, IsString } from 'class-validator';
-import { UserRole } from 'src/api/user/domain/user.enum';
+import { UserRole } from '@API/user/domain/user.enum';
 
 export const UserErrorMessage = {
   username: '잘못된 사용자명입니다.',
@@ -15,13 +15,13 @@ export const UserErrorMessage = {
 export class UserEntity extends TypeOrmBaseEntity {
   @Column({ unique: true })
   @IsString({ message: UserErrorMessage.username })
-  username: string;
+  username!: string;
 
   @Column()
   @IsString({ message: UserErrorMessage.password })
-  password: string;
+  password!: string;
 
   @Column({ default: UserRole.Normal })
   @IsEnum(UserRole, { message: UserErrorMessage.role })
-  role: UserRole;
+  role!: UserRole;
 }

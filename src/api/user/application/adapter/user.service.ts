@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 import { IUser } from '../../domain/user.interface';
 import { UserRepository } from '../../infrastructure/adapter/user.repository';
 import { UserErrorMessage } from '../../infrastructure/model/user.entity';

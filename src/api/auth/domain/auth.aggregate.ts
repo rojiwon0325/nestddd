@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import { CookieOptions } from 'express';
-import { BaseAggregate } from 'src/api/common/base/base-aggregate';
-import { Implements } from 'src/api/common/interface/class.interface';
-import { RoleLevel, UserRole } from 'src/api/user/domain/user.enum';
+import { BaseAggregate } from '@API/common/base/base-aggregate';
+import { Implements } from '@API/common/interface/class.interface';
+import { RoleLevel, UserRole } from '@API/user/domain/user.enum';
 import {
   IAuth,
   IAuthId,

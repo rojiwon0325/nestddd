@@ -1,5 +1,5 @@
-import { ValidateAuthDTO } from 'src/api/auth/application/dto/auth.application.dto';
-import { IAuthResponse } from 'src/api/auth/domain/auth.interface';
+import { ValidateAuthDTO } from '@API/auth/application/dto/auth.application.dto';
+import { IAuthResponse } from '@API/auth/domain/auth.interface';
 import { IUserResponse } from '../../domain/user.interface';
 import {
   CreateUserDTO,

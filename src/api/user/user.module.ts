@@ -1,4 +1,4 @@
-import { AuthModule } from 'src/api/auth/auth.module';
+import { AuthModule } from '@API/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './application/adapter/user.service';

@@ -1,4 +1,4 @@
-import { IBaseRepository } from 'src/api/common/interface/base-repository.interface';
+import { IBaseRepository } from '@API/common/interface/base-repository.interface';
 import { IUser, IUserId, IUserProperty } from '../../domain/user.interface';
 
 export interface IUserRepository extends IBaseRepository<IUserId, IUser> {

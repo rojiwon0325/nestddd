@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IEntityMapper } from 'src/api/common/interface/mapper.interface';
+import { IEntityMapper } from '@API/common/interface/mapper.interface';
 import { User } from '../../domain/user.aggregate';
 import { IUser } from '../../domain/user.interface';
 import { UserEntity } from '../model/user.entity';

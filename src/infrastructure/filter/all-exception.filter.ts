@@ -6,8 +6,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { IErrorResponse } from 'src/api/common/interface/response.interface';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { IErrorResponse } from '@API/common/interface/response.interface';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {

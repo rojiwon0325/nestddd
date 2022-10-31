@@ -7,6 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.use(helmet({ contentSecurityPolicy: true, hidePoweredBy: true }));
   app.use(cookieParser());
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();

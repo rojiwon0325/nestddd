@@ -9,10 +9,10 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { IAuthResponse } from 'src/api/auth/domain/auth.interface';
-import { AuthUser } from 'src/api/auth/provider/decorator/auth.decorator';
-import { Public } from 'src/api/auth/provider/decorator/public.decorator';
-import { Role } from 'src/api/auth/provider/decorator/role.decorator';
+import { IAuthResponse } from '@API/auth/domain/auth.interface';
+import { AuthUser } from '@API/auth/provider/decorator/auth.decorator';
+import { Public } from '@API/auth/provider/decorator/public.decorator';
+import { Role } from '@API/auth/provider/decorator/role.decorator';
 import { UserUsecase } from '../../application/adapter/user.usecase';
 import { IUserUsecase } from '../../application/port/user.usecase.interface';
 import { UserRole } from '../../domain/user.enum';
@@ -21,11 +21,13 @@ import {
   CreateUserBody,
   FindOneUserParam,
   RemoveUserBody,
+  TestBody,
   UpdateUserBody,
 } from './user.controller.dto';
+import TSON from 'typescript-json';
 
 @UseInterceptors(UserResponseInterceptor)
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(
     @Inject(UserUsecase) private readonly userUsecase: IUserUsecase,
@@ -42,6 +44,13 @@ export class UserController {
   @Get()
   findMany() {
     return this.userUsecase.findMany();
+  }
+
+  @Public()
+  @Get('test')
+  test(@Body() body: TestBody) {
+    console.log('test', TSON.validate(body));
+    return body;
   }
 
   @Get('me')

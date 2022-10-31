@@ -2,8 +2,8 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 import { PUBLIC_KEY } from '../constants';
 
 @Injectable()

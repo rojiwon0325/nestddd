@@ -1,6 +1,6 @@
 import { CookieOptions } from 'express';
-import { BaseAggregate } from 'src/api/common/base/base-aggregate';
-import { UserRole } from 'src/api/user/domain/user.enum';
+import { BaseAggregate } from '@API/common/base/base-aggregate';
+import { UserRole } from '@API/user/domain/user.enum';
 
 export type IAuthId = number;
 

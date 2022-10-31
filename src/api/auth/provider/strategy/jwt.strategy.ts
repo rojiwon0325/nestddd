@@ -4,7 +4,7 @@ import { IAuthId, IAuthResponse } from '../../domain/auth.interface';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { Request } from 'express';
 import { Auth } from '../../domain/auth.aggregate';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
 import { IAuthService } from '../../application/port/auth.service.interface';
 import { AuthService } from '../../application/adapter/auth.service';
 

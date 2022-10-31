@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 import { Auth } from '../../domain/auth.aggregate';
 import { IAuth } from '../../domain/auth.interface';
 import { AuthRepository } from '../../infrastructure/adapter/auth.repository';

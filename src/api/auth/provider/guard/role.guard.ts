@@ -1,10 +1,10 @@
 import { Reflector } from '@nestjs/core';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserRole } from 'src/api/user/domain/user.enum';
+import { UserRole } from '@API/user/domain/user.enum';
 import { ROLE_KEY } from '../constants';
 import { IAuthResponse } from '../../domain/auth.interface';
-import { httpExceptionProvider } from 'src/api/common/provider/exception.provider';
-import { ExceptionMessage } from 'src/api/common/provider/message.provider';
+import { httpExceptionProvider } from '@API/common/provider/exception.provider';
+import { ExceptionMessage } from '@API/common/provider/message.provider';
 import { Auth } from '../../domain/auth.aggregate';
 
 @Injectable()

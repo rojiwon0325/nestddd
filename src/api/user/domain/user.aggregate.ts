@@ -1,5 +1,5 @@
-import { BaseAggregate } from 'src/api/common/base/base-aggregate';
-import { Implements } from 'src/api/common/interface/class.interface';
+import { BaseAggregate } from '@API/common/base/base-aggregate';
+import { Implements } from '@API/common/interface/class.interface';
 import { UserRole } from './user.enum';
 import {
   IUser,
