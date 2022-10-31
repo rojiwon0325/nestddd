@@ -1,24 +1,42 @@
-import { BaseAggregate } from 'src/api/common/model/aggregate.base';
-import { IUser, IUserId, IUserProps, IUserResponse } from './user.interface';
+import { BaseAggregate } from 'src/api/common/base/base-aggregate';
+import { Implements } from 'src/api/common/interface/class.interface';
+import { UserRole } from './user.enum';
+import {
+  IUser,
+  IUserId,
+  IUserProps,
+  IUserResponse,
+  StaticUser,
+} from './user.interface';
 
-export class User extends BaseAggregate<IUserId> implements IUser {
+export class User
+  extends BaseAggregate<IUserId>
+  implements Implements<IUser, StaticUser, typeof User>
+{
   private constructor(
     id: IUserId,
-    readonly username: string,
     created_at: Date,
     updated_at: Date,
+    readonly username: string,
+    readonly role: UserRole,
   ) {
     super(id, created_at, updated_at);
   }
 
   static get(props: IUserProps): IUser {
-    const { id, username, created_at, updated_at } = props;
+    const { id, created_at, updated_at, username, role } = props;
     const now = new Date();
-    return new User(id ?? 0, username, created_at ?? now, updated_at ?? now);
+    return new User(
+      id ?? 0,
+      created_at ?? now,
+      updated_at ?? now,
+      username,
+      role,
+    );
   }
 
   getResponse(): IUserResponse {
-    const { id, username } = this;
-    return { id, username };
+    const { id, username, role } = this;
+    return { id, username, role };
   }
 }

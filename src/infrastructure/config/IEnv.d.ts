@@ -7,6 +7,9 @@ type IEnv = {
   DB_USERNAME: string;
   DB_PASSWORD: string;
   DB_DATABASE: string;
+
+  JWT_SECRET: string;
+  JWT_EXPIRESIN: string;
 };
 
 declare namespace NodeJS {
