@@ -1,4 +1,9 @@
 import { IBaseRepository } from 'src/api/common/interface/base-repository.interface';
-import { IUser, IUserId } from '../../domain/user.interface';
+import { IUser, IUserId, IUserProperty } from '../../domain/user.interface';
 
-export type IUserRepository = IBaseRepository<IUserId, IUser>;
+export interface IUserRepository extends IBaseRepository<IUserId, IUser> {
+  findOne: (
+    where: Pick<IUserProperty, 'id'> | Pick<IUserProperty, 'username'>,
+  ) => Promise<IUser | null>;
+  save: (aggregate: IUser, password?: string) => Promise<IUser>;
+}

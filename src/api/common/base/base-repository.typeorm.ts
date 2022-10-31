@@ -14,10 +14,9 @@ export abstract class TypeOrmBaseRepository<
     private readonly repository: Repository<IRootEntity>,
   ) {}
 
-  async findOne({ id }: { id?: number }): Promise<IAggregate | null> {
-    if (typeof id !== 'number') {
-      return null;
-    }
+  async findOne({
+    id,
+  }: Pick<BaseAggregate<number>, 'id'>): Promise<IAggregate | null> {
     const where: FindOptionsWhere<unknown> = { id };
     const entity = await this.repository.findOne({ where });
     return entity == null ? null : this.mapper.toAggregate(entity);
@@ -37,9 +36,8 @@ export abstract class TypeOrmBaseRepository<
     return aggregate;
   }
 
-  async remove(aggregate: IAggregate): Promise<void> {
-    const entity = this.mapper.toRootEntity(aggregate);
-    await this.repository.remove(entity);
+  async remove(id: number): Promise<void> {
+    await this.repository.delete(id);
     return;
   }
 

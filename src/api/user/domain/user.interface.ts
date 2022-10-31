@@ -12,12 +12,13 @@ export type IUserResponse = Pick<IUserProperty, 'id' | 'username' | 'role'>;
 
 export interface IUserMethod {
   getResponse: () => IUserResponse;
+  setUsername: (username: string) => void;
 }
 
 export type IUser = IUserProperty & IUserMethod;
 
-export type IUserProps = Omit<IUserProperty, keyof BaseAggregate<IUserId>> &
-  Partial<BaseAggregate<IUserId>>;
+export type IUserProps = Pick<IUserProperty, 'username'> &
+  Partial<Pick<IUserProperty, 'role'> & BaseAggregate<IUserId>>;
 
 export interface StaticUser {
   get: (props: IUserProps) => IUser;

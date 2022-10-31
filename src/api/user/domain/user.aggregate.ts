@@ -31,12 +31,17 @@ export class User
       created_at ?? now,
       updated_at ?? now,
       username,
-      role,
+      role ?? UserRole.Normal,
     );
   }
 
   getResponse(): IUserResponse {
     const { id, username, role } = this;
     return { id, username, role };
+  }
+
+  setUsername(username: string): void {
+    (this as any).username = username;
+    return;
   }
 }

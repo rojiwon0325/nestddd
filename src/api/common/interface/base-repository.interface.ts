@@ -1,8 +1,10 @@
 import { BaseAggregate } from '../base/base-aggregate';
 
 export interface IBaseRepository<IId, IAggregate extends BaseAggregate<IId>> {
-  findOne: (where: { id?: IId }) => Promise<IAggregate | null>;
+  findOne: (
+    where: Pick<BaseAggregate<IId>, 'id'>,
+  ) => Promise<IAggregate | null>;
   findMany: () => Promise<IAggregate[]>;
   save: (aggregate: IAggregate) => Promise<IAggregate>;
-  remove: (aggregate: IAggregate) => Promise<void>;
+  remove: (id: IId) => Promise<void>;
 }

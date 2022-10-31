@@ -1,6 +1,7 @@
 import { Controller, Get, Inject, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
+import { AuthUsecase } from '../../application/adapter/auth.usecase';
 import { IAuthUsecase } from '../../application/port/auth.usecase.interface';
 import { Auth } from '../../domain/auth.aggregate';
 import { IAuthResponse } from '../../domain/auth.interface';
@@ -9,7 +10,9 @@ import { Public } from '../../provider/decorator/public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(@Inject() private readonly authUsecase: IAuthUsecase) {}
+  constructor(
+    @Inject(AuthUsecase) private readonly authUsecase: IAuthUsecase,
+  ) {}
 
   @Public()
   @UseGuards(AuthGuard('local'))

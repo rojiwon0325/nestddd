@@ -23,10 +23,4 @@ export class AuthRepository implements IAuthRepository {
     const entity = await this.repository.findOne(option);
     return entity == null ? null : this.mapper.toAggregate(entity);
   }
-
-  async update(auth: IAuth): Promise<IAuth> {
-    const entity = this.mapper.toRootEntity(auth);
-    await this.repository.update(entity.id, entity);
-    return auth;
-  }
 }
