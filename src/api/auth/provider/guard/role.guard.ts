@@ -1,15 +1,25 @@
 import { Reflector } from '@nestjs/core';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserRole } from '@API/user/domain/user.enum';
-import { ROLE_KEY } from '../constants';
-import { IAuthResponse } from '../../domain/auth.interface';
-import { httpExceptionProvider } from '@API/common/provider/exception.provider';
-import { ExceptionMessage } from '@API/common/provider/message.provider';
-import { Auth } from '../../domain/auth.aggregate';
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
+import { UserRole } from '@USER/domain/user.enum';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { IAuthService } from '@AUTH/application/port/auth.service.interface';
+import { throwHttpException } from '@COMMON/provider/exception.provider';
+import { ExceptionMessage } from '@COMMON/provider/message.provider';
+import { AuthService } from '@AUTH/application/adapter/auth.service';
+import { ROLE_KEY } from '../constant/role.key';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
+  constructor(
+    private readonly reflector: Reflector,
+    @Inject(AuthService)
+    private readonly authService: IAuthService,
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
     const permission = this.reflector.getAllAndOverride<UserRole>(ROLE_KEY, [
@@ -21,12 +31,13 @@ export class RoleGuard implements CanActivate {
       return true;
     }
 
-    const user = context.switchToHttp().getRequest().user as IAuthResponse;
+    const user = context.switchToHttp().getRequest().user as
+      | AuthDomain.Public
+      | undefined;
 
-    if (user == undefined || !Auth.checkPermission(user.role, permission)) {
-      throw httpExceptionProvider('403', ExceptionMessage.FBD);
-    }
-
-    return true;
+    return user == undefined ||
+      !this.authService.checkPermission({ user: user.role, permission })
+      ? throwHttpException('403', ExceptionMessage.FBD)
+      : true;
   }
 }

@@ -1,25 +1,35 @@
-import { BaseAggregate } from '@API/common/base/base-aggregate';
+import { IBaseAggregate } from '@COMMON/interface/base-aggregate.interface';
+import { Implements } from 'src/util/class.interface';
 import { UserRole } from './user.enum';
 
-export type IUserId = number;
+export namespace UserDomain {
+  export type Id = number;
+  export interface Property extends IBaseAggregate<Id> {
+    readonly username: string;
+    readonly role: UserRole;
+  }
+  export type Public = Pick<Property, 'id' | 'username' | 'role'>;
+  export type PublicDetail = Pick<Property, 'id' | 'username' | 'role'>;
 
-export interface IUserProperty extends BaseAggregate<IUserId> {
-  readonly username: string;
-  readonly role: UserRole;
-}
+  export interface Method {
+    getPublic: () => Public;
+    getPublicDetail: () => PublicDetail;
+    setUsername: (username: string) => void;
+  }
 
-export type IUserResponse = Pick<IUserProperty, 'id' | 'username' | 'role'>;
+  export type Aggregate = Property & Method;
 
-export interface IUserMethod {
-  getResponse: () => IUserResponse;
-  setUsername: (username: string) => void;
-}
+  type Required = keyof Pick<Property, 'username'>;
+  export type Props = Pick<Property, Required> &
+    Partial<Omit<Property, Required>>;
 
-export type IUser = IUserProperty & IUserMethod;
+  export interface StaticMethod {
+    get: (props: Props) => Aggregate;
+  }
 
-export type IUserProps = Pick<IUserProperty, 'username'> &
-  Partial<Pick<IUserProperty, 'role'> & BaseAggregate<IUserId>>;
-
-export interface StaticUser {
-  get: (props: IUserProps) => IUser;
+  export type Static<C extends StaticMethod> = Implements<
+    Aggregate,
+    StaticMethod,
+    C
+  >;
 }

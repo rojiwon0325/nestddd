@@ -1,7 +1,8 @@
-import { IAuth } from '../../domain/auth.interface';
-import { FindOneAuthDTO, ValidateAuthDTO } from '../dto/auth.application.dto';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { AuthServiceDTO } from '../dto/auth.service.dto';
 
 export interface IAuthService {
-  findOne: (dto: FindOneAuthDTO) => Promise<IAuth>;
-  validate: (dto: ValidateAuthDTO) => Promise<IAuth>;
+  findOne: (dto: AuthServiceDTO.FindOne) => Promise<AuthDomain.Aggregate>;
+  validate: (dto: AuthServiceDTO.Validate) => Promise<AuthDomain.Aggregate>;
+  checkPermission: (dto: AuthServiceDTO.CheckPermission) => boolean;
 }

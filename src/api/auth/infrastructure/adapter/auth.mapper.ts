@@ -1,17 +1,19 @@
+import { Auth } from '@AUTH/domain/auth.aggregate';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { IEntityMapper } from '@COMMON/interface/mapper.interface';
 import { Injectable } from '@nestjs/common';
-import { IEntityMapper } from '@API/common/interface/mapper.interface';
-import { UserEntity } from '@API/user/infrastructure/model/user.entity';
-import { Auth } from '../../domain/auth.aggregate';
-import { IAuth } from '../../domain/auth.interface';
+import { UserEntity } from '@USER/infrastructure/model/user.entity';
 
 @Injectable()
-export class AuthMapper implements IEntityMapper<IAuth, UserEntity> {
-  toAggregate(entity: UserEntity): IAuth {
+export class AuthMapper
+  implements IEntityMapper<AuthDomain.Aggregate, UserEntity>
+{
+  toAggregate(entity: UserEntity): AuthDomain.Aggregate {
     const { id, created_at, updated_at, username, password, role } = entity;
     return Auth.get({ id, created_at, updated_at, username, password, role });
   }
 
-  toRootEntity(auth: IAuth): UserEntity {
+  toRootEntity(auth: AuthDomain.Aggregate): UserEntity {
     const { id } = auth;
     const entity = new UserEntity();
     if (id != 0) {

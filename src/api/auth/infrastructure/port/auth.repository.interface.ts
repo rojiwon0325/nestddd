@@ -1,7 +1,9 @@
-import { IAuth, IAuthProperty } from '../../domain/auth.interface';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
 
 export interface IAuthRepository {
   findOne: (
-    where: Pick<IAuthProperty, 'id'> | Pick<IAuthProperty, 'username'>,
-  ) => Promise<IAuth | null>;
+    where:
+      | Pick<AuthDomain.Property, 'id'>
+      | Pick<AuthDomain.Property, 'username'>,
+  ) => Promise<AuthDomain.Aggregate | null>;
 }

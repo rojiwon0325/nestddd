@@ -6,5 +6,5 @@ export interface IBaseRepository<IId, IAggregate extends BaseAggregate<IId>> {
   ) => Promise<IAggregate | null>;
   findMany: () => Promise<IAggregate[]>;
   save: (aggregate: IAggregate) => Promise<IAggregate>;
-  remove: (id: IId) => Promise<void>;
+  remove: (where: Pick<BaseAggregate<IId>, 'id'>) => Promise<void>;
 }

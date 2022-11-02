@@ -1,20 +1,15 @@
+import { AuthService } from '@AUTH/application/adapter/auth.service';
+import { AuthServiceDTO } from '@AUTH/application/dto/auth.service.dto';
+import { IAuthService } from '@AUTH/application/port/auth.service.interface';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { throwHttpException } from '@COMMON/provider/exception.provider';
+import { ExceptionMessage } from '@COMMON/provider/message.provider';
 import { Inject, Injectable } from '@nestjs/common';
-import { AuthService } from '@API/auth/application/adapter/auth.service';
-import { ValidateAuthDTO } from '@API/auth/application/dto/auth.application.dto';
-import { IAuthService } from '@API/auth/application/port/auth.service.interface';
-import { IAuthResponse } from '@API/auth/domain/auth.interface';
-import { httpExceptionProvider } from '@API/common/provider/exception.provider';
-import { ExceptionMessage } from '@API/common/provider/message.provider';
-import { User } from '../../domain/user.aggregate';
-import { IUserResponse } from '../../domain/user.interface';
-import { UserRepository } from '../../infrastructure/adapter/user.repository';
-import { IUserRepository } from '../../infrastructure/port/user.repository.interface';
-import {
-  CreateUserDTO,
-  FindOneUserDTO,
-  RemoveUserResponse,
-  UpdateUserDTO,
-} from '../dto/user.application.dto';
+import { User } from '@USER/domain/user.aggregate';
+import { UserDomain } from '@USER/domain/user.interface';
+import { UserRepository } from '@USER/infrastructure/adapter/user.repository';
+import { IUserRepository } from '@USER/infrastructure/port/user.repository.interface';
+import { UserUsecaseDTO } from '../dto/user.usecase.dto';
 import { IUserService } from '../port/user.service.interface';
 import { IUserUsecase } from '../port/user.usecase.interface';
 import { UserService } from './user.service';
@@ -27,46 +22,47 @@ export class UserUsecase implements IUserUsecase {
     @Inject(AuthService) private readonly authService: IAuthService,
   ) {}
 
-  async create(dto: CreateUserDTO): Promise<IUserResponse> {
+  async create(dto: UserUsecaseDTO.Create): Promise<UserDomain.Public> {
     const { username, password } = dto;
     await this.userService.checkDuplicate(username);
     const encrypted = await this.userService.encrypt(password);
     const user = User.get({ username });
-    return (await this.userRepository.save(user, encrypted)).getResponse();
+    return (await this.userRepository.save(user, encrypted)).getPublic();
   }
 
-  async findOne(dto: FindOneUserDTO): Promise<IUserResponse> {
-    const user = await this.userService.findOne(dto);
-    return user.getResponse();
+  async findOne(where: UserUsecaseDTO.FindOne): Promise<UserDomain.Public> {
+    return (await this.userService.findOne(where)).getPublic();
   }
 
-  async findMe({ id }: IAuthResponse): Promise<IUserResponse> {
-    return (await this.userService.findOne({ id })).getResponse();
+  async findMe({ id }: AuthDomain.Public): Promise<UserDomain.PublicDetail> {
+    return (await this.userService.findOne({ id })).getPublicDetail();
   }
 
-  async findMany(): Promise<IUserResponse[]> {
-    const users = await this.userRepository.findMany();
-    return users.map((user) => user.getResponse());
+  async findMany(): Promise<UserDomain.Public[]> {
+    return (await this.userRepository.findMany()).map((user) =>
+      user.getPublic(),
+    );
   }
 
   async update(
-    { id }: IAuthResponse,
-    dto: UpdateUserDTO,
-  ): Promise<IUserResponse> {
+    { id }: AuthDomain.Public,
+    dto: UserUsecaseDTO.Update,
+  ): Promise<UserDomain.Public> {
     const user = await this.userService.findOne({ id });
-    dto.username != undefined ? user.setUsername(dto.username) : undefined;
-    return (await this.userRepository.save(user)).getResponse();
+    const { username } = dto;
+    username != undefined ? user.setUsername(username) : undefined;
+    return (await this.userRepository.save(user)).getPublic();
   }
 
   async remove(
-    auth: IAuthResponse,
-    validate: ValidateAuthDTO,
-  ): Promise<RemoveUserResponse> {
-    if (auth.username !== validate.username) {
-      throw httpExceptionProvider('403', ExceptionMessage.FBD);
-    }
+    auth: AuthDomain.Public,
+    validate: AuthServiceDTO.Validate,
+  ): Promise<UserUsecaseDTO.RemoveResponse> {
+    auth.username !== validate.username
+      ? throwHttpException('403', ExceptionMessage.FBD)
+      : undefined;
     const { id } = await this.authService.validate(validate);
-    await this.userRepository.remove(id);
+    await this.userRepository.remove({ id });
     return { id };
   }
 }

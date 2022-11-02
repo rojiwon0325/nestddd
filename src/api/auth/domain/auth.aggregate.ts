@@ -1,22 +1,14 @@
+import { BaseAggregate } from '@COMMON/base/base-aggregate';
+import { RoleLevel, UserRole } from '@USER/domain/user.enum';
 import * as bcrypt from 'bcrypt';
-import { CookieOptions } from 'express';
-import { BaseAggregate } from '@API/common/base/base-aggregate';
-import { Implements } from '@API/common/interface/class.interface';
-import { RoleLevel, UserRole } from '@API/user/domain/user.enum';
-import {
-  IAuth,
-  IAuthId,
-  IAuthProps,
-  IAuthResponse,
-  StaticAuth,
-} from './auth.interface';
+import { AuthDomain } from './auth.interface';
 
 export class Auth
-  extends BaseAggregate<IAuthId>
-  implements Implements<IAuth, StaticAuth, typeof Auth>
+  extends BaseAggregate<AuthDomain.Id>
+  implements AuthDomain.Static<typeof Auth>
 {
   private constructor(
-    id: IAuthId,
+    id: AuthDomain.Id,
     created_at: Date,
     updated_at: Date,
     readonly username: string,
@@ -26,7 +18,12 @@ export class Auth
     super(id, created_at, updated_at);
   }
 
-  static get(props: IAuthProps): IAuth {
+  getPublic(): AuthDomain.Public {
+    const { id, username, role } = this;
+    return { id, username, role };
+  }
+
+  static get(props: AuthDomain.Props): AuthDomain.Aggregate {
     const { id, created_at, updated_at, username, password, role } = props;
     const now = new Date();
     return new Auth(
@@ -39,27 +36,19 @@ export class Auth
     );
   }
 
-  static authenticate(password: string, hashed: string): Promise<boolean> {
+  static authenticate({
+    password,
+    hashed,
+  }: AuthDomain.AuthenticateArgs): Promise<boolean> {
     return bcrypt.compare(password, hashed);
   }
 
-  static getCookieName(): string {
-    return 'access_token';
-  }
-
-  static getCookieConfig(): CookieOptions {
-    const option: CookieOptions = {};
-    return option;
-  }
-
-  static checkPermission(user: UserRole, permission: UserRole): boolean {
+  static checkPermission({
+    user,
+    permission,
+  }: AuthDomain.CheckPermissionArgs): boolean {
     const userLevel = RoleLevel[user];
     const permLevel = RoleLevel[permission];
     return userLevel <= permLevel;
-  }
-
-  getResponse(): IAuthResponse {
-    const { id, username, role } = this;
-    return { id, username, role };
   }
 }

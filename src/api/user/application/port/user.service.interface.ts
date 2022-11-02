@@ -1,8 +1,8 @@
-import { IUser } from '../../domain/user.interface';
-import { FindOneUserDTO } from '../dto/user.application.dto';
+import { UserDomain } from '@USER/domain/user.interface';
+import { UserServiceDTO } from '../dto/user.service.dto';
 
 export interface IUserService {
   checkDuplicate: (username: string) => Promise<void>;
   encrypt: (password: string) => Promise<string>;
-  findOne: (dto: FindOneUserDTO) => Promise<IUser>;
+  findOne: (dto: UserServiceDTO.FindOne) => Promise<UserDomain.Aggregate>;
 }

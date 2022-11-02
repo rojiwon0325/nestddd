@@ -1,10 +1,10 @@
+import { throwHttpException } from '@COMMON/provider/exception.provider';
+import { ExceptionMessage } from '@COMMON/provider/message.provider';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { httpExceptionProvider } from '@API/common/provider/exception.provider';
-import { ExceptionMessage } from '@API/common/provider/message.provider';
-import { PUBLIC_KEY } from '../constants';
+import { PUBLIC_KEY } from '../constant/public.key';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -18,16 +18,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
-      return true;
-    }
-    return super.canActivate(context);
+    return isPublic ? true : super.canActivate(context);
   }
 
   handleRequest(err: Error, payload: any) {
-    if (err || !payload) {
-      throw httpExceptionProvider('401', ExceptionMessage.UAE);
-    }
-    return payload;
+    return err || !payload
+      ? throwHttpException('401', ExceptionMessage.UAE)
+      : payload;
   }
 }

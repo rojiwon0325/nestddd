@@ -1,7 +1,7 @@
-import { TypeOrmBaseEntity } from '@API/common/base/base-entity.typeorm';
 import { Column, Entity } from 'typeorm';
 import { IsEnum, IsString } from 'class-validator';
-import { UserRole } from '@API/user/domain/user.enum';
+import { TypeOrmBaseEntity } from '@COMMON/base/base-entity.typeorm';
+import { UserRole } from '@USER/domain/user.enum';
 
 export const UserErrorMessage = {
   username: '잘못된 사용자명입니다.',

@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { IAuthId, IAuthResponse } from '../../domain/auth.interface';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { Request } from 'express';
-import { Auth } from '../../domain/auth.aggregate';
-import { httpExceptionProvider } from '@API/common/provider/exception.provider';
-import { IAuthService } from '../../application/port/auth.service.interface';
-import { AuthService } from '../../application/adapter/auth.service';
+import { Cookie } from '../constant/cookie';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { throwHttpException } from '@COMMON/provider/exception.provider';
+import { IAuthService } from '@AUTH/application/port/auth.service.interface';
+import { AuthService } from '@AUTH/application/adapter/auth.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const option: StrategyOptions = {
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(),
-        (req: Request) => req.cookies[Auth.getCookieName()] ?? null,
+        (req: Request) => req.cookies[Cookie.name] ?? null,
       ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET,
@@ -22,11 +22,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super(option);
   }
 
-  async validate({ id }: { id: IAuthId }): Promise<IAuthResponse> {
-    if (typeof id == 'number') {
-      const auth = await this.authService.findOne({ id });
-      return auth.getResponse();
-    }
-    throw httpExceptionProvider('401', '유효하지 않은 인증정보입니다.');
+  async validate({
+    id,
+  }: Pick<AuthDomain.Property, 'id'>): Promise<AuthDomain.Public> {
+    return typeof id == 'number'
+      ? (await this.authService.findOne({ id })).getPublic()
+      : throwHttpException('401', '유효하지 않은 인증정보입니다.');
   }
 }

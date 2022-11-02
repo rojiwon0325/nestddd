@@ -1,12 +1,12 @@
+import { throwHttpException } from '@COMMON/provider/exception.provider';
+import { ExceptionMessage } from '@COMMON/provider/message.provider';
 import { Inject, Injectable } from '@nestjs/common';
+import { UserDomain } from '@USER/domain/user.interface';
+import { UserRepository } from '@USER/infrastructure/adapter/user.repository';
+import { UserErrorMessage } from '@USER/infrastructure/model/user.entity';
+import { IUserRepository } from '@USER/infrastructure/port/user.repository.interface';
 import * as bcrypt from 'bcrypt';
-import { httpExceptionProvider } from '@API/common/provider/exception.provider';
-import { ExceptionMessage } from '@API/common/provider/message.provider';
-import { IUser } from '../../domain/user.interface';
-import { UserRepository } from '../../infrastructure/adapter/user.repository';
-import { UserErrorMessage } from '../../infrastructure/model/user.entity';
-import { IUserRepository } from '../../infrastructure/port/user.repository.interface';
-import { FindOneUserDTO } from '../dto/user.application.dto';
+import { UserServiceDTO } from '../dto/user.service.dto';
 import { IUserService } from '../port/user.service.interface';
 
 @Injectable()
@@ -17,21 +17,19 @@ export class UserService implements IUserService {
 
   async checkDuplicate(username: string): Promise<void> {
     const exist = await this.userRepository.findOne({ username });
-    if (exist != null) {
-      throw httpExceptionProvider('400', UserErrorMessage.username_unique);
-    }
-    return;
+    return exist != null
+      ? throwHttpException('400', UserErrorMessage.username_unique)
+      : undefined;
   }
 
   encrypt(password: string): Promise<string> {
     return bcrypt.hash(password, 10);
   }
 
-  async findOne(dto: FindOneUserDTO): Promise<IUser> {
+  async findOne(dto: UserServiceDTO.FindOne): Promise<UserDomain.Aggregate> {
     const user = await this.userRepository.findOne(dto);
-    if (user == null) {
-      throw httpExceptionProvider('404', ExceptionMessage.NotFound);
-    }
-    return user;
+    return user == null
+      ? throwHttpException('404', ExceptionMessage.NotFound)
+      : user;
   }
 }

@@ -4,21 +4,21 @@ import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 export type StatusCode = '400' | '401' | '403' | '404' | '500';
 
-export const httpExceptionProvider = (
+export const throwHttpException = (
   statusCode: StatusCode,
   message?: string,
 ) => {
   switch (statusCode) {
     case '400':
-      return new BadRequestException(message);
+      throw new BadRequestException(message);
     case '401':
-      return new UnauthorizedException(message);
+      throw new UnauthorizedException(message);
     case '403':
-      return new ForbiddenException(message);
+      throw new ForbiddenException(message);
     case '404':
-      return new NotFoundException(message);
+      throw new NotFoundException(message);
     case '500':
     default:
-      return new InternalServerErrorException(message);
+      throw new InternalServerErrorException(message);
   }
 };

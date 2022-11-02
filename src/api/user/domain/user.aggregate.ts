@@ -1,20 +1,13 @@
-import { BaseAggregate } from '@API/common/base/base-aggregate';
-import { Implements } from '@API/common/interface/class.interface';
+import { BaseAggregate } from '@COMMON/base/base-aggregate';
 import { UserRole } from './user.enum';
-import {
-  IUser,
-  IUserId,
-  IUserProps,
-  IUserResponse,
-  StaticUser,
-} from './user.interface';
+import { UserDomain } from './user.interface';
 
 export class User
-  extends BaseAggregate<IUserId>
-  implements Implements<IUser, StaticUser, typeof User>
+  extends BaseAggregate<UserDomain.Id>
+  implements UserDomain.Static<typeof User>
 {
   private constructor(
-    id: IUserId,
+    id: UserDomain.Id,
     created_at: Date,
     updated_at: Date,
     readonly username: string,
@@ -23,7 +16,7 @@ export class User
     super(id, created_at, updated_at);
   }
 
-  static get(props: IUserProps): IUser {
+  static get(props: UserDomain.Props): UserDomain.Aggregate {
     const { id, created_at, updated_at, username, role } = props;
     const now = new Date();
     return new User(
@@ -35,7 +28,12 @@ export class User
     );
   }
 
-  getResponse(): IUserResponse {
+  getPublic(): UserDomain.Public {
+    const { id, username, role } = this;
+    return { id, username, role };
+  }
+
+  getPublicDetail(): UserDomain.PublicDetail {
     const { id, username, role } = this;
     return { id, username, role };
   }

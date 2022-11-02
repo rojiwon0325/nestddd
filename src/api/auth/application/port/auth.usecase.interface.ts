@@ -1,6 +1,5 @@
-import { IAuthId } from '../../domain/auth.interface';
-import { ISignInResponse } from '../dto/auth.application.dto';
+import { AuthUsecaseDTO } from '../dto/auth.usecase.dto';
 
 export interface IAuthUsecase {
-  signIn: (id: IAuthId) => ISignInResponse;
+  signIn: (dto: AuthUsecaseDTO.SignIn) => AuthUsecaseDTO.SignInResponse;
 }

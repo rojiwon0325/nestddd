@@ -1,21 +1,19 @@
-import { ValidateAuthDTO } from '@API/auth/application/dto/auth.application.dto';
-import { IAuthResponse } from '@API/auth/domain/auth.interface';
-import { IUserResponse } from '../../domain/user.interface';
-import {
-  CreateUserDTO,
-  FindOneUserDTO,
-  RemoveUserResponse,
-  UpdateUserDTO,
-} from '../dto/user.application.dto';
+import { AuthServiceDTO } from '@AUTH/application/dto/auth.service.dto';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { UserDomain } from '@USER/domain/user.interface';
+import { UserUsecaseDTO } from '../dto/user.usecase.dto';
 
 export interface IUserUsecase {
-  create: (dto: CreateUserDTO) => Promise<IUserResponse>;
-  findOne: (dto: FindOneUserDTO) => Promise<IUserResponse>;
-  findMe: (auth: IAuthResponse) => Promise<IUserResponse>;
-  findMany: () => Promise<IUserResponse[]>;
-  update: (auth: IAuthResponse, dto: UpdateUserDTO) => Promise<IUserResponse>;
+  create: (dto: UserUsecaseDTO.Create) => Promise<UserDomain.Public>;
+  findOne: (dto: UserUsecaseDTO.FindOne) => Promise<UserDomain.Public>;
+  findMe: (auth: AuthDomain.Public) => Promise<UserDomain.PublicDetail>;
+  findMany: () => Promise<UserDomain.Public[]>;
+  update: (
+    auth: AuthDomain.Public,
+    dto: UserUsecaseDTO.Update,
+  ) => Promise<UserDomain.Public>;
   remove: (
-    auth: IAuthResponse,
-    dto: ValidateAuthDTO,
-  ) => Promise<RemoveUserResponse>;
+    auth: AuthDomain.Public,
+    dto: AuthServiceDTO.Validate,
+  ) => Promise<UserUsecaseDTO.RemoveResponse>;
 }

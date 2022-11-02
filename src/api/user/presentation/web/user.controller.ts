@@ -1,3 +1,7 @@
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { AuthPublic } from '@AUTH/provider/decorator/auth.decorator';
+import { Public } from '@AUTH/provider/decorator/public.decorator';
+import { Role } from '@AUTH/provider/decorator/role.decorator';
 import {
   Body,
   Controller,
@@ -9,25 +13,14 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { IAuthResponse } from '@API/auth/domain/auth.interface';
-import { AuthUser } from '@API/auth/provider/decorator/auth.decorator';
-import { Public } from '@API/auth/provider/decorator/public.decorator';
-import { Role } from '@API/auth/provider/decorator/role.decorator';
-import { UserUsecase } from '../../application/adapter/user.usecase';
-import { IUserUsecase } from '../../application/port/user.usecase.interface';
-import { UserRole } from '../../domain/user.enum';
-import { UserResponseInterceptor } from '../../provider/user.interceptor';
-import {
-  CreateUserBody,
-  FindOneUserParam,
-  RemoveUserBody,
-  TestBody,
-  UpdateUserBody,
-} from './user.controller.dto';
-import TSON from 'typescript-json';
+import { UserUsecase } from '@USER/application/adapter/user.usecase';
+import { IUserUsecase } from '@USER/application/port/user.usecase.interface';
+import { UserRole } from '@USER/domain/user.enum';
+import { UserResponseInterceptor } from '@USER/provider/user.interceptor';
+import { UpdateUserBody, ValidateUserBody } from './user.controller.dto';
 
 @UseInterceptors(UserResponseInterceptor)
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(
     @Inject(UserUsecase) private readonly userUsecase: IUserUsecase,
@@ -35,7 +28,7 @@ export class UserController {
 
   @Public()
   @Post()
-  create(@Body() body: CreateUserBody) {
+  create(@Body() body: ValidateUserBody) {
     const { username, password } = body;
     return this.userUsecase.create({ username, password });
   }
@@ -46,32 +39,28 @@ export class UserController {
     return this.userUsecase.findMany();
   }
 
-  @Public()
-  @Get('test')
-  test(@Body() body: TestBody) {
-    console.log('test', TSON.validate(body));
-    return body;
-  }
-
   @Get('me')
-  async findMe(@AuthUser() auth: IAuthResponse) {
+  async findMe(@AuthPublic() auth: AuthDomain.Public) {
     return this.userUsecase.findMe(auth);
   }
 
   @Role(UserRole.Admin)
   @Get(':user_id')
-  async findOne(@Param() { user_id: id }: FindOneUserParam) {
+  async findOne(@Param('user_id') id: number) {
     return this.userUsecase.findOne({ id });
   }
 
   @Patch('me')
-  update(@AuthUser() auth: IAuthResponse, @Body() body: UpdateUserBody) {
+  update(@AuthPublic() auth: AuthDomain.Public, @Body() body: UpdateUserBody) {
     const { username } = body;
     return this.userUsecase.update(auth, { username });
   }
 
   @Delete('me')
-  remove(@AuthUser() auth: IAuthResponse, @Body() body: RemoveUserBody) {
+  remove(
+    @AuthPublic() auth: AuthDomain.Public,
+    @Body() body: ValidateUserBody,
+  ) {
     const { username, password } = body;
     return this.userUsecase.remove(auth, { username, password });
   }

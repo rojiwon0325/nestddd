@@ -1,18 +1,11 @@
-import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsString, Matches } from 'class-validator';
-import { IAuthProperty } from '@API/auth/domain/auth.interface';
-import { IUserProperty } from '../../domain/user.interface';
-import { UserErrorMessage } from '../../infrastructure/model/user.entity';
+import { AuthDomain } from '@AUTH/domain/auth.interface';
+import { UserDomain } from '@USER/domain/user.interface';
+import { UserErrorMessage } from '@USER/infrastructure/model/user.entity';
+import { IsOptional, IsString, Matches } from 'class-validator';
 
-export class FindOneUserParam {
-  @IsNumber()
-  @Type(() => Number)
-  user_id!: number;
-}
+type IValidateBody = Pick<AuthDomain.Property, 'username' | 'password'>;
 
-type ICreateUserBody = Pick<IAuthProperty, 'username' | 'password'>;
-
-export class CreateUserBody implements ICreateUserBody {
+export class ValidateUserBody implements IValidateBody {
   @IsString({ message: UserErrorMessage.username })
   username!: string;
 
@@ -22,23 +15,10 @@ export class CreateUserBody implements ICreateUserBody {
   password!: string;
 }
 
-type IUpdateUserBody = Partial<Pick<IUserProperty, 'username'>>;
+type IUpdateUserBody = Partial<Pick<UserDomain.Property, 'username'>>;
 
 export class UpdateUserBody implements IUpdateUserBody {
   @IsOptional()
   @IsString({ message: UserErrorMessage.username })
   username?: string;
-}
-
-type IRemoveUserBody = Pick<IAuthProperty, 'username' | 'password'>;
-
-export class RemoveUserBody implements IRemoveUserBody {
-  @IsString({ message: UserErrorMessage.username })
-  username!: string;
-  @IsString({ message: UserErrorMessage.password })
-  password!: string;
-}
-
-export interface TestBody {
-  name: string;
 }

@@ -36,7 +36,7 @@ export abstract class TypeOrmBaseRepository<
     return aggregate;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove({ id }: Pick<BaseAggregate<number>, 'id'>): Promise<void> {
     await this.repository.delete(id);
     return;
   }

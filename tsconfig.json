@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "plugins": [
+      { "transform": "nestia-helper/lib/transform" },
       { "transform": "typescript-json/lib/transform" },
       { "transform": "typescript-transform-paths" }
     ],
@@ -27,11 +28,13 @@
     // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
     // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
 
-    "paths": {
-      "@API/*": ["src/api/*"],
-      "@INFRA/*": ["src/infrastructure/*"]
+    "paths": {  
+      "@UTILS/*":["src/util/*"],
+      "@COMMON/*":["src/api/common/*"],
+      "@AUTH/*":["src/api/auth/*"],
+      "@USER/*":["src/api/user/*"]
     },
-    "typeRoots": ["./src/infrastructure/config"]
+    
   },
   // src만 build됨, config 대상이 src라는 의미
   "include": ["src"],
