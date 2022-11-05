@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "plugins": [
+      { "transform": "nestia-helper/lib/transform" },
+      { "transform": "typescript-json/lib/transform" },
+      { "transform": "typescript-transform-paths" }
+    ],
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -12,10 +17,26 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": false
-  }
+    "strict": true,  /* Enable all strict type-checking options.
+    // "noImplicitAny": true,
+    // "strictNullChecks": true,
+    // "strictBindCallApply": false, /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    // "forceConsistentCasingInFileNames": true,
+    // "noFallthroughCasesInSwitch": false,
+    // "strictFunctionTypes": true,           /* Enable strict checking of function types. */
+    // "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
+    // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
+    // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
+
+    "paths": {  
+      "@COMMON/*":["src/api/common/*"],
+      "@ACCOUNT/*":["src/api/account/*"],
+      "@USER/*":["src/api/user/*"],
+      "@CRYPTO/*":["src/api/crypto/*"]
+    },
+    
+  },
+  // src만 build됨, config 대상이 src라는 의미
+  "include": ["src"],
+  "exclude": ["node_modules", "test", "dist", "**/*/test"]
 }

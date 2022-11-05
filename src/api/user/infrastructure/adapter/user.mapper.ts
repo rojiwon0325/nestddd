@@ -1,23 +1,34 @@
+import {
+  account_aggregate_to_entity,
+  account_entity_to_aggregate,
+} from '@ACCOUNT/infrastructure/adapter/account.mapper';
+import { IEntityMapper } from '@COMMON/interface/mapper.interface';
 import { Injectable } from '@nestjs/common';
-import { IEntityMapper } from 'src/api/common/interface/mapper.interface';
-import { User } from '../../domain/user.aggregate';
-import { IUser } from '../../domain/user.interface';
-import { UserEntity } from '../model/user.entity';
+import { User } from '@USER/domain';
+import { UserEntity } from './user.entity';
 
 @Injectable()
-export class UserEntityMapper implements IEntityMapper<IUser, UserEntity> {
-  toAggregate(entity: UserEntity): IUser {
-    const { id, created_at, updated_at, username, role } = entity;
-    return User.get({ id, created_at, updated_at, username, role });
+export class UserEntityMapper
+  implements IEntityMapper<User.Property, UserEntity>
+{
+  toAggregate(entity: UserEntity): User.Property {
+    const { id, created_at, updated_at, bio, account } = entity;
+    return User.get({
+      id,
+      created_at,
+      updated_at,
+      profile: { bio },
+      account: account_entity_to_aggregate(account),
+    });
   }
-  toRootEntity(aggregate: IUser): UserEntity {
-    const { id, username, role } = aggregate;
+  toRootEntity(aggregate: User.Property): UserEntity {
+    const { id, profile, account } = aggregate;
     const entity = new UserEntity();
     if (id != 0) {
       entity.id = id;
     }
-    entity.username = username;
-    entity.role = role;
+    entity.bio = profile.bio ?? '';
+    entity.account = account_aggregate_to_entity(account);
     return entity;
   }
 }

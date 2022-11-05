@@ -1,28 +1,18 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
   Inject,
-  Param,
   Patch,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { IAuthResponse } from 'src/api/auth/domain/auth.interface';
-import { AuthUser } from 'src/api/auth/provider/decorator/auth.decorator';
-import { Public } from 'src/api/auth/provider/decorator/public.decorator';
-import { Role } from 'src/api/auth/provider/decorator/role.decorator';
-import { UserUsecase } from '../../application/adapter/user.usecase';
-import { IUserUsecase } from '../../application/port/user.usecase.interface';
-import { UserRole } from '../../domain/user.enum';
-import { UserResponseInterceptor } from '../../provider/user.interceptor';
-import {
-  CreateUserBody,
-  FindOneUserParam,
-  RemoveUserBody,
-  UpdateUserBody,
-} from './user.controller.dto';
+import { UserUsecase } from '@USER/application/adapter/user.usecase';
+import { UserResponseInterceptor } from '@USER/provider/user.interceptor';
+import helper from 'nestia-helper';
+import { IUserUsecase } from '@USER/application/port/user.usecase.port';
+import { AccountPublic } from '@ACCOUNT/provider/decorator/account.decorator';
+import { Account } from '@ACCOUNT/domain';
+import { Role } from '@ACCOUNT/provider/decorator/role.decorator';
 
 @UseInterceptors(UserResponseInterceptor)
 @Controller('users')
@@ -31,39 +21,34 @@ export class UserController {
     @Inject(UserUsecase) private readonly userUsecase: IUserUsecase,
   ) {}
 
-  @Public()
-  @Post()
-  create(@Body() body: CreateUserBody) {
-    const { username, password } = body;
-    return this.userUsecase.create({ username, password });
-  }
-
-  @Role(UserRole.Admin)
-  @Get()
-  findMany() {
-    return this.userUsecase.findMany();
-  }
-
   @Get('me')
-  async findMe(@AuthUser() auth: IAuthResponse) {
-    return this.userUsecase.findMe(auth);
+  async findMe(@AccountPublic() { id, username, email }: Account.Public) {
+    return this.userUsecase.findMe({ id, username, email });
   }
 
-  @Role(UserRole.Admin)
+  @Role('Admin')
   @Get(':user_id')
-  async findOne(@Param() { user_id: id }: FindOneUserParam) {
+  async findOne(
+    @helper.TypedParam('user_id', 'number')
+    id: number,
+  ) {
     return this.userUsecase.findOne({ id });
   }
 
-  @Patch('me')
-  update(@AuthUser() auth: IAuthResponse, @Body() body: UpdateUserBody) {
-    const { username } = body;
-    return this.userUsecase.update(auth, { username });
+  @Post('me')
+  async createProfile(
+    @AccountPublic() account: Account.Public,
+    @helper.TypedBody()
+    body: IUserUsecase.CreateProfile,
+  ) {
+    return this.userUsecase.createProfile(account, body);
   }
 
-  @Delete('me')
-  remove(@AuthUser() auth: IAuthResponse, @Body() body: RemoveUserBody) {
-    const { username, password } = body;
-    return this.userUsecase.remove(auth, { username, password });
+  @Patch('me')
+  updateProfile(
+    @AccountPublic() account: Account.Public,
+    @helper.TypedBody() body: IUserUsecase.UpdateProfile,
+  ) {
+    return this.userUsecase.updateProfile(account, body);
   }
 }

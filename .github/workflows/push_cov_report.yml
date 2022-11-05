@@ -2,7 +2,7 @@ name: 'Test'
 
 on:
   push:
-    branches: [ _main ]
+    branches: [ main ]
     
 jobs:            
   deploy_coverage:

@@ -1,33 +1,33 @@
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { IEntityMapper } from '../interface/mapper.interface';
 import { IBaseRepository } from '../interface/base-repository.interface';
-import { BaseAggregate } from './base-aggregate';
 import { TypeOrmBaseEntity } from './base-entity.typeorm';
+import { IBaseAggregate } from '@COMMON/interface/base-aggregate.interface';
 
 export abstract class TypeOrmBaseRepository<
-  IAggregate extends BaseAggregate<number>,
-  IRootEntity extends TypeOrmBaseEntity,
-> implements IBaseRepository<number, IAggregate>
+  Aggregate extends IBaseAggregate<number>,
+  RootEntity extends TypeOrmBaseEntity,
+> implements IBaseRepository<number, Aggregate>
 {
   constructor(
-    private readonly mapper: IEntityMapper<IAggregate, IRootEntity>,
-    private readonly repository: Repository<IRootEntity>,
+    private readonly mapper: IEntityMapper<Aggregate, RootEntity>,
+    private readonly repository: Repository<RootEntity>,
   ) {}
 
   async findOne({
     id,
-  }: Pick<BaseAggregate<number>, 'id'>): Promise<IAggregate | null> {
+  }: Pick<IBaseAggregate<number>, 'id'>): Promise<Aggregate | null> {
     const where: FindOptionsWhere<unknown> = { id };
     const entity = await this.repository.findOne({ where });
     return entity == null ? null : this.mapper.toAggregate(entity);
   }
 
-  async findMany(): Promise<IAggregate[]> {
+  async findMany(): Promise<Aggregate[]> {
     const list = await this.repository.find();
     return list.map(this.mapper.toAggregate);
   }
 
-  async save(aggregate: IAggregate): Promise<IAggregate> {
+  async save(aggregate: Aggregate): Promise<Aggregate> {
     const entity = this.mapper.toRootEntity(aggregate);
     delete (entity as any).created_at;
     delete (entity as any).updated_at;
@@ -36,16 +36,16 @@ export abstract class TypeOrmBaseRepository<
     return aggregate;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove({ id }: Pick<IBaseAggregate<number>, 'id'>): Promise<void> {
     await this.repository.delete(id);
     return;
   }
 
-  protected getMapper(): IEntityMapper<IAggregate, IRootEntity> {
+  protected getMapper(): IEntityMapper<Aggregate, RootEntity> {
     return this.mapper;
   }
 
-  protected getRepository(): Repository<IRootEntity> {
+  protected getRepository(): Repository<RootEntity> {
     return this.repository;
   }
 }

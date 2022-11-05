@@ -21,6 +21,9 @@ DB_PORT
 DB_USERNAME
 DB_PASSWORD
 DB_DATABASE
+
+JWT_SECRET
+JWT_EXPIRESIN
 ```
 
 ### github secrets
@@ -32,5 +35,10 @@ GIST_SECRET - gist create 권한을 가진 토큰
 ## 요구사항 분석
 
 ## 설계도
+
+## API Doc
+
+- View in the `Swagger Editor`
+  - [swagger](https://editor.swagger.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2F{username}%2F{repository}%2F{branch}%2Fdoc%2Fswagger.json)
 
 ## 진행상황
