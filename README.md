@@ -5,10 +5,8 @@
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=plastic&logo=nestjs&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=plastic&logo=mysql&logoColor=white)
 
-<!--
-![Test Status](https://github.com/{username}/{reponame}/actions/workflows/push_cov_report.yml/badge.svg)
-![Test Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/{username}/{gist_id}/raw/{ gist_filename.json })
--->
+![Test Status](https://github.com/rojiwon0325/nestddd/actions/workflows/push_cov_report.yml/badge.svg)
+![Test Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rojiwon0325/e9d685dac7c70dfad1305ce9d8174a29/raw/coverage_nestddd.json)
 
 </div>
 
@@ -36,9 +34,8 @@ GIST_SECRET - gist create 권한을 가진 토큰
 
 ## 설계도
 
-## API Doc
+## API 문서
 
-- View in the `Swagger Editor`
-  - [swagger](https://editor.swagger.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2F{username}%2F{repository}%2F{branch}%2Fdoc%2Fswagger.json)
+- [View in the `Swagger Editor`](https://editor.swagger.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Frojiwon0325%2Fnestddd%2Fmain%2Fdoc%2Fswagger.json)
 
 ## 진행상황
