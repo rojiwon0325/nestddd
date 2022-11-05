@@ -37,12 +37,3 @@ lerna-debug.log*
 # Environment
 .env
 .env.*
-
-# sdk
-
-/sdk
-/src/sdk
-
-# swagger
-
-swagger.*

@@ -1,0 +1,718 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "https://github.com/rojiwon0325/nestddd",
+      "description": "nest template for ddd"
+    }
+  ],
+  "info": {
+    "version": "0.1.0",
+    "title": "NestDDD - nestjs template designed DDD"
+  },
+  "paths": {
+    "/accounts/sign-in": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Password_and_Pick_lt_Property_comma_email_gt_"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Password_and_Pick_lt_Property_comma_username_gt_"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/__object"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/accounts/sign-up": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IAccountUsecase.SignUp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/__type"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/accounts/sign-out": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/__object.o1"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/accounts/withdraw": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Password_and_Pick_lt_Property_comma_email_gt_"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Password_and_Pick_lt_Property_comma_username_gt_"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/__type"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User.PublicDetail"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/__type.o1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User.PublicDetail"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "patch": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/__type.o2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User.PublicDetail"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User.Public"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Password_and_Pick_lt_Property_comma_email_gt_": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "description": "비밀번호는 숫자와 문자로이루어진 6이상 20자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,20}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,20}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,20}$"
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "description": "이벤트 및 개인 확인용 이메일",
+            "x-tson-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "format": "email"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "password",
+          "email"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "Password_and_Pick_lt_Property_comma_username_gt_": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "description": "비밀번호는 숫자와 문자로이루어진 6이상 20자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,20}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,20}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,20}$"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "password",
+          "username"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__object": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "nullable": false
+          },
+          "access_token": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "status",
+          "access_token"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IAccountUsecase.SignUp": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "description": "비밀번호는 숫자와 문자로이루어진 6이상 20자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,20}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,20}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,20}$"
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "description": "이벤트 및 개인 확인용 이메일",
+            "x-tson-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "password",
+          "email",
+          "username"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "description": "이벤트 및 개인 확인용 이메일",
+            "x-tson-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
+          },
+          "id": {
+            "type": "number",
+            "nullable": false,
+            "description": "애그리거트의 id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Admin",
+              "Manager",
+              "Normal"
+            ],
+            "nullable": false,
+            "description": "사용자 권한"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "email",
+          "username",
+          "id",
+          "role"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__object.o1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "nullable": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "User.PublicDetail": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "nullable": false,
+            "description": "인물 소개 정보"
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "description": "이벤트 및 개인 확인용 이메일",
+            "x-tson-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
+          },
+          "id": {
+            "type": "number",
+            "nullable": false,
+            "description": "애그리거트의 id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Admin",
+              "Manager",
+              "Normal"
+            ],
+            "nullable": false,
+            "description": "사용자 권한"
+          },
+          "verified": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "이메일 인증 여부"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "email",
+          "username",
+          "id",
+          "role",
+          "verified"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "User.Public": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "nullable": false,
+            "description": "인물 소개 정보"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
+          },
+          "id": {
+            "type": "number",
+            "nullable": false,
+            "description": "애그리거트의 id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Admin",
+              "Manager",
+              "Normal"
+            ],
+            "nullable": false,
+            "description": "사용자 권한"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "username",
+          "id",
+          "role"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type.o1": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "nullable": false,
+            "description": "인물 소개 정보"
+          }
+        },
+        "nullable": false,
+        "x-tson_jsDocTags": []
+      },
+      "__type.o2": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "nullable": false,
+            "description": "인물 소개 정보"
+          }
+        },
+        "nullable": false,
+        "x-tson_jsDocTags": []
+      }
+    }
+  }
+}

@@ -24,8 +24,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json",
-    "swagger": "nestia swagger 'src/**/*.controller.ts' --out 'swagger.json'",
-    "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'sdk'"
+    "swagger": "nestia swagger 'src/**/*.controller.ts' --out 'doc/swagger.json'",
+    "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'doc/sdk'"
   },
   "dependencies": {
     "@nestjs/common": "^9.1.6",
@@ -34,7 +34,6 @@
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.1.6",
-    "@nestjs/swagger": "^6.1.3",
     "@nestjs/typeorm": "^9.0.1",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",

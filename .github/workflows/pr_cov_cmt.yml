@@ -1,7 +1,7 @@
 name: Test Coverage Comment
 on:
   pull_request:
-    branches: [ _main ]
+    branches: [ main ]
     
 jobs:
   coverage_comment:
