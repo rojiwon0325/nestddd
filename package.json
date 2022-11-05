@@ -6,8 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "rimraf dist && ttsc",
-    "build:dev": "rimraf dist && ttsc --watch",
+    "tsc":"tsc -h",
+    "build": "rimraf dist && ttsc -p ./tsconfig.build.json",
+    "build:dev": "npm run build -- --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm run build && pm2 start ecosystem.config.js --env production",
     "start:debug": "nest start --debug --watch",
@@ -105,16 +106,19 @@
     "coveragePathIgnorePatterns": [
       "main.ts",
       ".module.ts",
+      ".entity.ts",
       ".controller.ts",
-      ".provider.ts",
-      ".dto.ts",
-      ".repository.ts",
-      ".d.ts",
-      ".base.ts",
-      ".filter.ts",
-      ".pipe.ts",
+      "cookie.ts",
+      ".key.ts",
+      ".decorator.ts",
       ".guard.ts",
-      ".interceptor.ts"
+      ".strategy.ts",
+      ".typeorm.ts",
+      ".provider.ts",
+      ".provider.ts",
+      ".interceptor.ts",
+      ".d.ts",
+      ".filter.ts"
     ]
   }
 }
