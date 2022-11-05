@@ -1,3 +1,5 @@
+import { IErrorResponse } from '@COMMON/interface/response.interface';
+import { ExceptionMessage } from '@COMMON/provider/message.provider';
 import {
   ExceptionFilter,
   Catch,
@@ -6,8 +8,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { IErrorResponse } from '@API/common/interface/response.interface';
-import { ExceptionMessage } from '@API/common/provider/message.provider';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -35,15 +35,19 @@ export class AllExceptionFilter implements ExceptionFilter {
     httpAdapter.reply(ctx.getResponse(), responseBody, statusCode);
   }
   extractMessageInHttpException(exception: HttpException): string {
-    const exceptionResponse = exception.getResponse();
-    if (typeof exceptionResponse == 'object') {
-      const message = (exceptionResponse as any)?.message;
-      if (typeof message == 'string') {
-        return message;
-      } else if (message.constructor === Array && message.length > 0) {
-        return message[0];
-      }
+    const message = exception.message;
+    if (
+      exception.name === 'BadRequestException' &&
+      message === 'Request message is not following the promised type.'
+    ) {
+      // tson error
+      const response = exception.getResponse() as any;
+      const reason = response.reason as string | null;
+      return `${
+        reason ? reason.split(/(\$input.)(.*?)(, )/g)[2] + ' ' : ''
+      }입력값이 잘못되었습니다.`;
     }
+
     return exception.message;
   }
   extractMessageInUnKnwon(exception: unknown): string {

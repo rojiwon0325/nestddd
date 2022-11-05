@@ -1,6 +1,6 @@
 type IEnv = {
   NODE_ENV: 'development' | 'production' | 'test';
-  PORT: string | number;
+  PORT: string;
 
   DB_HOST: string;
   DB_PORT: string;

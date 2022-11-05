@@ -1,4 +1,4 @@
 export interface IEntityMapper<IAggregate, IRootEntity> {
-  toAggregate: (entity: IRootEntity) => IAggregate;
-  toRootEntity: (aggregate: IAggregate) => IRootEntity;
+  readonly toAggregate: (entity: IRootEntity) => IAggregate;
+  readonly toRootEntity: (aggregate: IAggregate) => IRootEntity;
 }

@@ -1,68 +1,61 @@
-import { AuthService } from '@AUTH/application/adapter/auth.service';
-import { AuthServiceDTO } from '@AUTH/application/dto/auth.service.dto';
-import { IAuthService } from '@AUTH/application/port/auth.service.interface';
-import { AuthDomain } from '@AUTH/domain/auth.interface';
-import { throwHttpException } from '@COMMON/provider/exception.provider';
-import { ExceptionMessage } from '@COMMON/provider/message.provider';
+import { AccountService } from '@ACCOUNT/application/adapter/account.service';
+import { IAccountService } from '@ACCOUNT/application/port/account.service.port';
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@USER/domain/user.aggregate';
-import { UserDomain } from '@USER/domain/user.interface';
+import { User } from '@USER/domain';
 import { UserRepository } from '@USER/infrastructure/adapter/user.repository';
-import { IUserRepository } from '@USER/infrastructure/port/user.repository.interface';
-import { UserUsecaseDTO } from '../dto/user.usecase.dto';
-import { IUserService } from '../port/user.service.interface';
-import { IUserUsecase } from '../port/user.usecase.interface';
+import { IUserRepository } from '@USER/infrastructure/port/user.repository.port';
+import { IUserService } from '../port/user.service.port';
+import { IUserUsecase } from '../port/user.usecase.port';
 import { UserService } from './user.service';
 
 @Injectable()
 export class UserUsecase implements IUserUsecase {
   constructor(
+    @Inject(AccountService) private readonly accountService: IAccountService,
     @Inject(UserRepository) private readonly userRepository: IUserRepository,
     @Inject(UserService) private readonly userService: IUserService,
-    @Inject(AuthService) private readonly authService: IAuthService,
   ) {}
-
-  async create(dto: UserUsecaseDTO.Create): Promise<UserDomain.Public> {
-    const { username, password } = dto;
-    await this.userService.checkDuplicate(username);
-    const encrypted = await this.userService.encrypt(password);
-    const user = User.get({ username });
-    return (await this.userRepository.save(user, encrypted)).getPublic();
+  async findOne(where: IUserUsecase.FindOne): Promise<User.Public> {
+    return User.getPublic(await this.userService.findOne(where));
   }
-
-  async findOne(where: UserUsecaseDTO.FindOne): Promise<UserDomain.Public> {
-    return (await this.userService.findOne(where)).getPublic();
+  async findMe(where: IUserUsecase.FindMe): Promise<User.PublicDetail> {
+    return User.getPublicDetail(await this.userService.findOne(where));
   }
-
-  async findMe({ id }: AuthDomain.Public): Promise<UserDomain.PublicDetail> {
-    return (await this.userService.findOne({ id })).getPublicDetail();
+  /** account정보에 해당하는 user를 생성한다. 만약 이미 있다면 덮어쓴다.(?) */
+  async createProfile(
+    where: IUserUsecase.FindMe,
+    { bio }: IUserUsecase.CreateProfile,
+  ): Promise<User.PublicDetail> {
+    return User.getPublicDetail(
+      await this.userRepository.save(
+        User.get({
+          account: await this.accountService.findOne(where),
+          profile: { bio },
+        }),
+      ),
+    );
   }
-
-  async findMany(): Promise<UserDomain.Public[]> {
-    return (await this.userRepository.findMany()).map((user) =>
-      user.getPublic(),
+  /** account는 존재하지만 user 정보가 존재하지 않는 경우, NotFound에러를 발생시킨다. */
+  async updateProfile(
+    where: IUserUsecase.FindMe,
+    update: IUserUsecase.UpdateProfile,
+  ): Promise<User.PublicDetail> {
+    return User.getPublicDetail(
+      await this.userRepository.save(
+        User.setProfile(await this.userService.findOne(where), update),
+      ),
     );
   }
 
-  async update(
-    { id }: AuthDomain.Public,
-    dto: UserUsecaseDTO.Update,
-  ): Promise<UserDomain.Public> {
-    const user = await this.userService.findOne({ id });
-    const { username } = dto;
-    username != undefined ? user.setUsername(username) : undefined;
-    return (await this.userRepository.save(user)).getPublic();
-  }
-
-  async remove(
-    auth: AuthDomain.Public,
-    validate: AuthServiceDTO.Validate,
-  ): Promise<UserUsecaseDTO.RemoveResponse> {
-    auth.username !== validate.username
-      ? throwHttpException('403', ExceptionMessage.FBD)
-      : undefined;
-    const { id } = await this.authService.validate(validate);
-    await this.userRepository.remove({ id });
-    return { id };
+  async updateUsername(
+    where: IUserUsecase.FindMe,
+    { username }: IUserUsecase.UpdateUsername,
+  ): Promise<User.PublicDetail> {
+    await this.accountService.checkDuplicate({ username });
+    return User.getPublicDetail(
+      await this.userRepository.save(
+        User.setUsername(await this.userService.findOne(where), { username }),
+      ),
+    );
   }
 }

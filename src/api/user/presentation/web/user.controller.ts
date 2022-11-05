@@ -1,23 +1,18 @@
-import { AuthDomain } from '@AUTH/domain/auth.interface';
-import { AuthPublic } from '@AUTH/provider/decorator/auth.decorator';
-import { Public } from '@AUTH/provider/decorator/public.decorator';
-import { Role } from '@AUTH/provider/decorator/role.decorator';
 import {
-  Body,
   Controller,
-  Delete,
   Get,
   Inject,
-  Param,
   Patch,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserUsecase } from '@USER/application/adapter/user.usecase';
-import { IUserUsecase } from '@USER/application/port/user.usecase.interface';
-import { UserRole } from '@USER/domain/user.enum';
 import { UserResponseInterceptor } from '@USER/provider/user.interceptor';
-import { UpdateUserBody, ValidateUserBody } from './user.controller.dto';
+import helper from 'nestia-helper';
+import { IUserUsecase } from '@USER/application/port/user.usecase.port';
+import { AccountPublic } from '@ACCOUNT/provider/decorator/account.decorator';
+import { Account } from '@ACCOUNT/domain';
+import { Role } from '@ACCOUNT/provider/decorator/role.decorator';
 
 @UseInterceptors(UserResponseInterceptor)
 @Controller('users')
@@ -26,42 +21,34 @@ export class UserController {
     @Inject(UserUsecase) private readonly userUsecase: IUserUsecase,
   ) {}
 
-  @Public()
-  @Post()
-  create(@Body() body: ValidateUserBody) {
-    const { username, password } = body;
-    return this.userUsecase.create({ username, password });
-  }
-
-  @Role(UserRole.Admin)
-  @Get()
-  findMany() {
-    return this.userUsecase.findMany();
-  }
-
   @Get('me')
-  async findMe(@AuthPublic() auth: AuthDomain.Public) {
-    return this.userUsecase.findMe(auth);
+  async findMe(@AccountPublic() { id, username, email }: Account.Public) {
+    return this.userUsecase.findMe({ id, username, email });
   }
 
-  @Role(UserRole.Admin)
+  @Role('Admin')
   @Get(':user_id')
-  async findOne(@Param('user_id') id: number) {
+  async findOne(
+    @helper.TypedParam('user_id', 'number')
+    id: number,
+  ) {
     return this.userUsecase.findOne({ id });
   }
 
-  @Patch('me')
-  update(@AuthPublic() auth: AuthDomain.Public, @Body() body: UpdateUserBody) {
-    const { username } = body;
-    return this.userUsecase.update(auth, { username });
+  @Post('me')
+  async createProfile(
+    @AccountPublic() account: Account.Public,
+    @helper.TypedBody()
+    body: IUserUsecase.CreateProfile,
+  ) {
+    return this.userUsecase.createProfile(account, body);
   }
 
-  @Delete('me')
-  remove(
-    @AuthPublic() auth: AuthDomain.Public,
-    @Body() body: ValidateUserBody,
+  @Patch('me')
+  updateProfile(
+    @AccountPublic() account: Account.Public,
+    @helper.TypedBody() body: IUserUsecase.UpdateProfile,
   ) {
-    const { username, password } = body;
-    return this.userUsecase.remove(auth, { username, password });
+    return this.userUsecase.updateProfile(account, body);
   }
 }
