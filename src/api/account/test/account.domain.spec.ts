@@ -1,7 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Account } from '@ACCOUNT/domain';
-const { get, getPublic, checkPermission, setUsername } = Account;
+import { Crypto } from '@CRYPTO/domain';
+jest.mock('@CRYPTO/domain');
+
+const { get, getPublic, checkPermission, setUsername, setPassword } = Account;
 const now = new Date();
+const TestData = get({
+  id: 1,
+  email: 'test@test.com',
+  username: 'testuser',
+  password: '1234',
+  role: 'Manager',
+});
 
 describe('Account Domain Unit Test', () => {
   it.each<Get>([
@@ -44,19 +54,12 @@ describe('Account Domain Unit Test', () => {
   });
 
   it('Account.getPublic', () => {
-    const data = get({
-      id: 1,
-      email: 'test@test.com',
-      username: 'testuser',
-      password: '1234',
-      role: 'Manager',
-    });
-    const result = getPublic(data);
+    const result = getPublic(TestData);
     expect(result).toEqual({
-      id: data.id,
-      email: data.email,
-      username: data.username,
-      role: data.role,
+      id: TestData.id,
+      email: TestData.email,
+      username: TestData.username,
+      role: TestData.role,
     });
     return;
   });
@@ -82,10 +85,22 @@ describe('Account Domain Unit Test', () => {
     expect(result).toBe(false);
   });
 
-  it('setUsername', () => {
+  it('Account.setUsername', () => {
+    const data = setUsername(TestData, { username: 'changedUsername' });
+    expect(data).toEqual({ ...TestData, username: 'changedUsername' });
+    expect(TestData.username).toBe('testuser');
     return;
   });
-  it('setPassword', () => {
+  it('Account.setPassword', async () => {
+    (Crypto as any).encrypt = jest.fn().mockResolvedValue('abcd1234');
+    const spyEncrypt = jest.spyOn(Crypto, 'encrypt');
+
+    const data = await setPassword(TestData, { password: 'changedPassword' });
+
+    expect(data).toEqual({ ...TestData, password: 'abcd1234' });
+    expect(spyEncrypt).toBeCalledTimes(1);
+    expect(spyEncrypt).toBeCalledWith('changedPassword');
+    expect(TestData.password).toBe('1234');
     return;
   });
 });

@@ -103,11 +103,9 @@ export const Account: Account.Method = {
     return ulevel <= plevel;
   },
   setUsername(agg, { username }) {
-    (agg as any).username = username;
-    return agg;
+    return { ...agg, username };
   },
   async setPassword(agg, { password }) {
-    (agg as any).password = await Crypto.encrypt(password);
-    return agg;
+    return { ...agg, password: await Crypto.encrypt(password) };
   },
 };
