@@ -94,4 +94,59 @@ describe('Account Service Unit Test', () => {
       return;
     });
   });
+
+  describe('signInLocal', () => {
+    it('사용자가 존재하지 않는 경우', async () => {
+      mockRepo.findOne.mockResolvedValue(null);
+      const spy = jest.spyOn(service, 'checkPassword');
+      await expect(
+        service.signInLocal({ password: '123', username: '234' }),
+      ).rejects.toThrowError(ExceptionMessage.NotFound);
+      expect(spy).toBeCalledTimes(0);
+      return;
+    });
+
+    it('비밀번호가 일치하지 않는 경우', async () => {
+      mockRepo.findOne.mockResolvedValue({ password: '123' });
+      (Crypto.compare as any).mockResolvedValue(false);
+
+      const spy = jest.spyOn(service, 'checkPassword');
+      await expect(
+        service.signInLocal({ password: '123', username: '234' }),
+      ).rejects.toThrowError('비밀번호가 일치하지 않습니다.');
+      expect(spy).toBeCalledTimes(1);
+      return;
+    });
+
+    it('로그인 성공', async () => {
+      mockRepo.findOne.mockResolvedValue({
+        id: 2,
+        username: 'tesfse',
+        email: 'bosdf@gmail.com',
+        verified: true,
+        role: 'Manager',
+        password: '123',
+        created_at: now1,
+        updated_at: now2,
+        something: 'something',
+      });
+      (Crypto.compare as any).mockResolvedValue(true);
+
+      const spy = jest.spyOn(service, 'checkPassword');
+      await expect(
+        service.signInLocal({ password: '123', username: '234' }),
+      ).resolves.toEqual({
+        id: 2,
+        username: 'tesfse',
+        email: 'bosdf@gmail.com',
+        verified: true,
+        role: 'Manager',
+        password: '123',
+        created_at: now1,
+        updated_at: now2,
+      });
+      expect(spy).toBeCalledTimes(1);
+      return;
+    });
+  });
 });
