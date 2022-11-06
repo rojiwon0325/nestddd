@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "tsc":"tsc -h",
+    "tsc": "tsc -h",
     "build": "rimraf dist && ttsc -p ./tsconfig.build.json",
     "build:dev": "npm run build -- --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
