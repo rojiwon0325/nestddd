@@ -8,6 +8,7 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { mockRepository } from './repository.mock';
 import { Crypto } from '@CRYPTO/domain';
+import { Account } from '@ACCOUNT/domain';
 jest.mock('@CRYPTO/domain');
 
 describe('Account Service Unit Test', () => {
@@ -52,7 +53,8 @@ describe('Account Service Unit Test', () => {
         updated_at: now2,
       });
 
-      await expect(service.findOne({ id: 1 })).resolves.toEqual({
+      const received = await service.findOne({ id: 1 });
+      expect(received).toEqual({
         id: 1,
         username: 'testuser',
         role: 'Normal',
@@ -66,7 +68,7 @@ describe('Account Service Unit Test', () => {
     });
     it('대상이 없을 때', async () => {
       mockRepo.findOne.mockResolvedValue(null);
-      await expect(service.findOne({ id: 1 })).rejects.toThrowError(
+      await expect(() => service.findOne({ id: 1 })).rejects.toThrowError(
         ExceptionMessage.NotFound,
       );
       return;
@@ -87,7 +89,7 @@ describe('Account Service Unit Test', () => {
       (Crypto.compare as any).mockResolvedValue(false);
       const spy = jest.spyOn(Crypto, 'compare');
 
-      await expect(
+      await expect(() =>
         service.checkPassword({ password: '', hashed: '' }),
       ).rejects.toThrowError('비밀번호가 일치하지 않습니다.');
       expect(spy).toBeCalledTimes(1);
@@ -99,7 +101,7 @@ describe('Account Service Unit Test', () => {
     it('사용자가 존재하지 않는 경우', async () => {
       mockRepo.findOne.mockResolvedValue(null);
       const spy = jest.spyOn(service, 'checkPassword');
-      await expect(
+      await expect(() =>
         service.signInLocal({ password: '123', username: '234' }),
       ).rejects.toThrowError(ExceptionMessage.NotFound);
       expect(spy).toBeCalledTimes(0);
@@ -111,7 +113,7 @@ describe('Account Service Unit Test', () => {
       (Crypto.compare as any).mockResolvedValue(false);
 
       const spy = jest.spyOn(service, 'checkPassword');
-      await expect(
+      await expect(() =>
         service.signInLocal({ password: '123', username: '234' }),
       ).rejects.toThrowError('비밀번호가 일치하지 않습니다.');
       expect(spy).toBeCalledTimes(1);
@@ -133,9 +135,13 @@ describe('Account Service Unit Test', () => {
       (Crypto.compare as any).mockResolvedValue(true);
 
       const spy = jest.spyOn(service, 'checkPassword');
-      await expect(
-        service.signInLocal({ password: '123', username: '234' }),
-      ).resolves.toEqual({
+
+      const received = await service.signInLocal({
+        password: '123',
+        username: '234',
+      });
+
+      expect(received).toEqual({
         id: 2,
         username: 'tesfse',
         email: 'bosdf@gmail.com',
@@ -149,4 +155,34 @@ describe('Account Service Unit Test', () => {
       return;
     });
   });
+
+  describe('checkPermission', () => {
+    it.each<CheckPermission>([
+      { user: 'Normal', permission: 'Admin' },
+      { user: 'Normal', permission: 'Manager' },
+      { user: 'Manager', permission: 'Admin' },
+    ])('권한 없음', (data) => {
+      expect(() => service.checkPermission(data)).toThrowError(
+        ExceptionMessage.FBD,
+      );
+      return;
+    });
+
+    it.each<CheckPermission>([
+      { user: 'Admin', permission: 'Admin' },
+      { user: 'Admin', permission: 'Normal' },
+      { user: 'Admin', permission: 'Manager' },
+      { user: 'Manager', permission: 'Manager' },
+      { user: 'Manager', permission: 'Normal' },
+      { user: 'Normal', permission: 'Normal' },
+    ])('권한 인증', (data) => {
+      service.checkPermission(data);
+      return;
+    });
+  });
 });
+
+type CheckPermission = {
+  readonly user: Account.Permission;
+  readonly permission: Account.Permission;
+};
