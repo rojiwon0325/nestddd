@@ -100,11 +100,25 @@ describe('Account Repository Unit Test', () => {
       password: '12345rtg',
       verified: true,
     });
+    expect(created_at).not.toEqual(now1);
+    expect(updated_at).not.toEqual(now2);
     expect(spyER).toBeCalledTimes(1);
     expect(spyRE).toBeCalledTimes(1);
     return;
   });
-  it('remove', () => {
+  it('remove', async () => {
+    await repository.remove({
+      id: 2,
+      username: 'testuser',
+      email: 'test@test.com',
+      role: 'Normal',
+      password: '12345rtg',
+      verified: true,
+      created_at: now1,
+      updated_at: now2,
+    });
+    expect(mockRepo.delete).toBeCalledTimes(1);
+    expect(mockRepo.delete).toBeCalledWith(2);
     return;
   });
 });
