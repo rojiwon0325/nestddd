@@ -5,8 +5,8 @@
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=plastic&logo=nestjs&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=plastic&logo=mysql&logoColor=white)
 
-![Test Status](https://github.com/rojiwon0325/nestddd/actions/workflows/push_cov_report.yml/badge.svg)
-![Test Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rojiwon0325/e9d685dac7c70dfad1305ce9d8174a29/raw/coverage_nestddd.json)
+[![Test Status](https://github.com/rojiwon0325/nestddd/actions/workflows/push_cov_report.yml/badge.svg)](https://github.com/rojiwon0325/nestddd/actions/workflows/push_cov_report.yml)
+[![Test Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rojiwon0325/e9d685dac7c70dfad1305ce9d8174a29/raw/coverage_nestddd.json)](https://rojiwon0325.github.io/nestddd)
 
 </div>
 
