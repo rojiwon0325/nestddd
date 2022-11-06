@@ -14,6 +14,9 @@ const TestData = get({
 });
 
 describe('Account Domain Unit Test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it.each<Get>([
     {
       email: 'test@test.com',
@@ -35,7 +38,7 @@ describe('Account Domain Unit Test', () => {
       created_at: now,
       updated_at: now,
     },
-  ])('Account.get', (data) => {
+  ])('get', (data) => {
     const { created_at, updated_at, ...account } = get(data);
     if (data.created_at != null) {
       expect(created_at).toEqual(data.created_at);
@@ -53,7 +56,7 @@ describe('Account Domain Unit Test', () => {
     });
   });
 
-  it('Account.getPublic', () => {
+  it('getPublic', () => {
     const result = getPublic(TestData);
     expect(result).toEqual({
       id: TestData.id,
@@ -71,7 +74,7 @@ describe('Account Domain Unit Test', () => {
     { user: 'Manager', permission: 'Manager' },
     { user: 'Manager', permission: 'Normal' },
     { user: 'Normal', permission: 'Normal' },
-  ])('Account.checkPermission - true', (data) => {
+  ])('checkPermission - true', (data) => {
     const result = checkPermission(data);
     expect(result).toBe(true);
     return;
@@ -80,26 +83,25 @@ describe('Account Domain Unit Test', () => {
     { user: 'Normal', permission: 'Admin' },
     { user: 'Normal', permission: 'Manager' },
     { user: 'Manager', permission: 'Admin' },
-  ])('Account.checkPermission - false', (data) => {
+  ])('checkPermission - false', (data) => {
     const result = checkPermission(data);
     expect(result).toBe(false);
   });
 
-  it('Account.setUsername', () => {
+  it('setUsername', () => {
     const data = setUsername(TestData, { username: 'changedUsername' });
     expect(data).toEqual({ ...TestData, username: 'changedUsername' });
     expect(TestData.username).toBe('testuser');
     return;
   });
-  it('Account.setPassword', async () => {
-    (Crypto as any).encrypt = jest.fn().mockResolvedValue('abcd1234');
-    const spyEncrypt = jest.spyOn(Crypto, 'encrypt');
+  it('setPassword', async () => {
+    (Crypto.encrypt as any).mockResolvedValue('abcd1234');
 
     const data = await setPassword(TestData, { password: 'changedPassword' });
 
     expect(data).toEqual({ ...TestData, password: 'abcd1234' });
-    expect(spyEncrypt).toBeCalledTimes(1);
-    expect(spyEncrypt).toBeCalledWith('changedPassword');
+    expect(Crypto.encrypt).toBeCalledTimes(1);
+    expect(Crypto.encrypt).toBeCalledWith('changedPassword');
     expect(TestData.password).toBe('1234');
     return;
   });
