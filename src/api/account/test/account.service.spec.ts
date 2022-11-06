@@ -1,6 +1,9 @@
 import { AccountService } from '@ACCOUNT/application/adapter/account.service';
 import { IAccountService } from '@ACCOUNT/application/port/account.service.port';
-import { AccountEntity } from '@ACCOUNT/infrastructure/adapter/account.entity';
+import {
+  AccountEntity,
+  AccountErrorMessage,
+} from '@ACCOUNT/infrastructure/adapter/account.entity';
 import { AccountEntityMapper } from '@ACCOUNT/infrastructure/adapter/account.mapper';
 import { AccountRepository } from '@ACCOUNT/infrastructure/adapter/account.repository';
 import { ExceptionMessage } from '@COMMON/provider/message.provider';
@@ -177,6 +180,31 @@ describe('Account Service Unit Test', () => {
       { user: 'Normal', permission: 'Normal' },
     ])('권한 인증', (data) => {
       service.checkPermission(data);
+      return;
+    });
+  });
+
+  describe('checkDuplicate', () => {
+    it('사용할 수 없는 이름인 경우', async () => {
+      mockRepo.findOne.mockResolvedValue({ id: 2, username: 'test' });
+      await expect(() =>
+        service.checkDuplicate({ username: 'test' }),
+      ).rejects.toThrowError(AccountErrorMessage.username_unique);
+      return;
+    });
+
+    it('사용할 수 없는 이메일인 경우', async () => {
+      mockRepo.findOne.mockResolvedValue({ id: 2, email: 'test' });
+      await expect(() =>
+        service.checkDuplicate({ email: 'test' }),
+      ).rejects.toThrowError(AccountErrorMessage.email_unique);
+      return;
+    });
+
+    it('사용가능한 이메일/이름인 경우', async () => {
+      mockRepo.findOne.mockResolvedValue(null);
+      await service.checkDuplicate({ username: '' });
+      await service.checkDuplicate({ email: '' });
       return;
     });
   });
