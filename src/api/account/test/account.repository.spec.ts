@@ -77,7 +77,31 @@ describe('Account Repository Unit Test', () => {
     });
   });
 
-  it('create', async () => {
+  it('save', async () => {
+    const spyRE = jest.spyOn(mapper, 'toRootEntity');
+    const spyER = jest.spyOn(mapper, 'toAggregate');
+
+    mockRepo.save.mockImplementationOnce((value) => value);
+    const { created_at, updated_at, ...received } = await repository.save({
+      id: 0,
+      username: 'testuser',
+      email: 'test@test.com',
+      role: 'Normal',
+      password: '12345rtg',
+      verified: true,
+      created_at: now1,
+      updated_at: now2,
+    });
+    expect(received).toEqual({
+      id: 0,
+      username: 'testuser',
+      email: 'test@test.com',
+      role: 'Normal',
+      password: '12345rtg',
+      verified: true,
+    });
+    expect(spyER).toBeCalledTimes(1);
+    expect(spyRE).toBeCalledTimes(1);
     return;
   });
   it('remove', () => {

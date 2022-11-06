@@ -37,6 +37,6 @@ export interface IAccountRepository {
   readonly findOne: (
     where: IAccountRepository.FindOne,
   ) => Promise<Account.Property | null>;
-  readonly create: (agg: Account.Property) => Promise<Account.Property>;
+  readonly save: (agg: Account.Property) => Promise<Account.Property>;
   readonly remove: (agg: Account.Property) => Promise<void>;
 }

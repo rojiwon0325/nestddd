@@ -40,7 +40,7 @@ export class AccountUsecase implements IAccountUsecase {
     ]);
     const hashed = await Crypto.encrypt(password);
     return Account.getPublic(
-      await this.accountRepository.create(
+      await this.accountRepository.save(
         Account.get({ email, username, password: hashed }),
       ),
     );
