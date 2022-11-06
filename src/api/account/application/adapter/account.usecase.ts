@@ -24,7 +24,7 @@ export class AccountUsecase implements IAccountUsecase {
   async signIn(
     dto: IAccountUsecase.SignIn,
   ): Promise<IAccountUsecase.SignInResponse> {
-    const { id } = await this.accountService.SignInLocal(dto);
+    const { id } = await this.accountService.signInLocal(dto);
     const token = this.jwtSerivce.sign({ id });
     return [Cookie.name, token, Cookie.option];
   }
@@ -40,7 +40,7 @@ export class AccountUsecase implements IAccountUsecase {
     ]);
     const hashed = await Crypto.encrypt(password);
     return Account.getPublic(
-      await this.accountRepository.create(
+      await this.accountRepository.save(
         Account.get({ email, username, password: hashed }),
       ),
     );
@@ -55,7 +55,7 @@ export class AccountUsecase implements IAccountUsecase {
     } else if ('email' in validate && validate.email != where.email) {
       throwHttpException('403', ExceptionMessage.FBD);
     }
-    const account = await this.accountService.SignInLocal(validate);
+    const account = await this.accountService.signInLocal(validate);
     await this.accountRepository.remove(account);
     return where;
   }

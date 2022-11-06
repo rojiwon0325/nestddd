@@ -13,7 +13,7 @@
   "paths": {
     "/accounts/sign-in": {
       "post": {
-        "tags": [],
+        "tags": ["accounts"],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -50,7 +50,7 @@
     },
     "/accounts/sign-up": {
       "post": {
-        "tags": [],
+        "tags": ["accounts"],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -80,7 +80,7 @@
     },
     "/accounts/sign-out": {
       "get": {
-        "tags": [],
+        "tags": ["accounts"],
         "parameters": [],
         "responses": {
           "200": {
@@ -99,7 +99,7 @@
     },
     "/accounts/withdraw": {
       "post": {
-        "tags": [],
+        "tags": ["accounts"],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -136,7 +136,7 @@
     },
     "/users/me": {
       "get": {
-        "tags": [],
+        "tags": ["users"],
         "parameters": [],
         "responses": {
           "200": {
@@ -153,7 +153,7 @@
         "description": ""
       },
       "post": {
-        "tags": [],
+        "tags": ["users"],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -181,7 +181,7 @@
         "description": ""
       },
       "patch": {
-        "tags": [],
+        "tags": ["users"],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -211,7 +211,7 @@
     },
     "/users/{user_id}": {
       "get": {
-        "tags": [],
+        "tags": ["users"],
         "parameters": [
           {
             "name": "user_id",

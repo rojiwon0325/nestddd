@@ -16,8 +16,10 @@ export class AccountRepository implements IAccountRepository {
     private readonly repository: Repository<AccountEntity>,
   ) {}
 
-  async create(agg: Account.Property): Promise<Account.Property> {
-    return this.repository.save(this.mapper.toRootEntity(agg));
+  async save(agg: Account.Property): Promise<Account.Property> {
+    return this.mapper.toAggregate(
+      await this.repository.save(this.mapper.toRootEntity(agg)),
+    );
   }
 
   async remove({ id }: Account.Property): Promise<void> {

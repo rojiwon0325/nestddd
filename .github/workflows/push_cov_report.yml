@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - name: Checkout 🛎️
@@ -56,8 +56,8 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.5.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: GIST_ID
-          filename: GIST_FILENAME.json
+          gistID: e9d685dac7c70dfad1305ce9d8174a29
+          filename: coverage_nestddd.json
           label: coverage
           message: ${{ steps.coverageComment.outputs.coverage }}%
           color: ${{ steps.coverageComment.outputs.color }}

@@ -31,9 +31,10 @@ export abstract class TypeOrmBaseRepository<
     const entity = this.mapper.toRootEntity(aggregate);
     delete (entity as any).created_at;
     delete (entity as any).updated_at;
-    const { id } = await this.repository.save(entity);
-    (aggregate as any).id = id;
-    return aggregate;
+    return {
+      ...aggregate,
+      ...this.mapper.toAggregate(await this.repository.save(entity)),
+    };
   }
 
   async remove({ id }: Pick<IBaseAggregate<number>, 'id'>): Promise<void> {

@@ -35,31 +35,32 @@ export namespace Account {
     readonly password: string;
   }
 
-  type Required = keyof Pick<Property, 'email' | 'username' | 'password'>;
-
   export type Public = Pick<Property, 'id' | 'email' | 'username' | 'role'>;
+}
 
-  export interface Method {
-    readonly checkPermission: (args: {
-      readonly user: Permission;
-      readonly permission: Permission;
-    }) => boolean;
-  }
+type Required = keyof Pick<Account.Property, 'email' | 'username' | 'password'>;
 
-  export interface Method {
-    readonly get: (
-      args: Pick<Property, Required> & Partial<Omit<Property, Required>>,
-    ) => Property;
-    readonly getPublic: (agg: Property) => Public;
-    readonly setUsername: (
-      agg: Property,
-      update: Pick<Property, 'username'>,
-    ) => Property;
-    readonly setPassword: (
-      agg: Property,
-      update: Password,
-    ) => Promise<Property>;
-  }
+export interface Account {
+  readonly get: (
+    args: Pick<Account.Property, Required> &
+      Partial<Omit<Account.Property, Required>>,
+  ) => Account.Property;
+  readonly getPublic: (agg: Account.Property) => Account.Public;
+  readonly setUsername: (
+    agg: Account.Property,
+    update: Pick<Account.Property, 'username'>,
+  ) => Account.Property;
+  readonly setPassword: (
+    agg: Account.Property,
+    update: Account.Password,
+  ) => Promise<Account.Property>;
+}
+
+export interface Account {
+  readonly checkPermission: (args: {
+    readonly user: Account.Permission;
+    readonly permission: Account.Permission;
+  }) => boolean;
 }
 
 const permissionLevel: { [key in Account.Permission]: number } = {
@@ -68,7 +69,7 @@ const permissionLevel: { [key in Account.Permission]: number } = {
   Normal: 2,
 };
 
-export const Account: Account.Method = {
+export const Account: Account = {
   get(agg) {
     const now = new Date();
     const {
@@ -103,11 +104,9 @@ export const Account: Account.Method = {
     return ulevel <= plevel;
   },
   setUsername(agg, { username }) {
-    (agg as any).username = username;
-    return agg;
+    return { ...agg, username };
   },
   async setPassword(agg, { password }) {
-    (agg as any).password = await Crypto.encrypt(password);
-    return agg;
+    return { ...agg, password: await Crypto.encrypt(password) };
   },
 };
