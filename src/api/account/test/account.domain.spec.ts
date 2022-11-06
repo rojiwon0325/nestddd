@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Account } from '@ACCOUNT/domain';
-type Required = keyof Pick<Account.Property, 'username' | 'email' | 'password'>;
-type Props = Pick<Account.Property, Required> &
-  Partial<Omit<Account.Property, Required>>;
+const { get, getPublic, checkPermission, setUsername } = Account;
+const now = new Date();
 
 describe('Account Domain Unit Test', () => {
-  const { get, getPublic, checkPermission, setUsername } = Account;
-  const now = new Date();
-  const getExample: Props[] = [
+  it.each<Get>([
     {
       email: 'test@test.com',
       username: 'testuser',
@@ -28,8 +25,7 @@ describe('Account Domain Unit Test', () => {
       created_at: now,
       updated_at: now,
     },
-  ];
-  it.each(getExample)('Account.get', (data) => {
+  ])('Account.get', (data) => {
     const { created_at, updated_at, ...account } = get(data);
     if (data.created_at != null) {
       expect(created_at).toEqual(data.created_at);
@@ -47,28 +43,45 @@ describe('Account Domain Unit Test', () => {
     });
   });
 
-  const agg = get({
-    id: 1,
-    email: 'test@test.com',
-    username: 'testuser',
-    password: '1234',
-    role: 'Manager',
-  });
-
   it('Account.getPublic', () => {
-    const result = getPublic(agg);
+    const data = get({
+      id: 1,
+      email: 'test@test.com',
+      username: 'testuser',
+      password: '1234',
+      role: 'Manager',
+    });
+    const result = getPublic(data);
     expect(result).toEqual({
-      id: agg.id,
-      email: agg.email,
-      username: agg.username,
-      role: agg.role,
+      id: data.id,
+      email: data.email,
+      username: data.username,
+      role: data.role,
     });
     return;
   });
 
-  it('checkPermission', () => {
+  it.each<CheckPermission>([
+    { user: 'Admin', permission: 'Admin' },
+    { user: 'Admin', permission: 'Normal' },
+    { user: 'Admin', permission: 'Manager' },
+    { user: 'Manager', permission: 'Manager' },
+    { user: 'Manager', permission: 'Normal' },
+    { user: 'Normal', permission: 'Normal' },
+  ])('Account.checkPermission - true', (data) => {
+    const result = checkPermission(data);
+    expect(result).toBe(true);
     return;
   });
+  it.each<CheckPermission>([
+    { user: 'Normal', permission: 'Admin' },
+    { user: 'Normal', permission: 'Manager' },
+    { user: 'Manager', permission: 'Admin' },
+  ])('Account.checkPermission - false', (data) => {
+    const result = checkPermission(data);
+    expect(result).toBe(false);
+  });
+
   it('setUsername', () => {
     return;
   });
@@ -76,3 +89,11 @@ describe('Account Domain Unit Test', () => {
     return;
   });
 });
+
+type Required = keyof Pick<Account.Property, 'username' | 'email' | 'password'>;
+type Get = Pick<Account.Property, Required> &
+  Partial<Omit<Account.Property, Required>>;
+type CheckPermission = {
+  readonly user: Account.Permission;
+  readonly permission: Account.Permission;
+};
