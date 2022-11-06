@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for account/provider/strategy/jwt.strategy.ts</title>
+    <title>Code coverage report for account/infrastructure/adapter/account.repository.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">account/provider/strategy</a> jwt.strategy.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">account/infrastructure/adapter</a> account.repository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,70 +96,79 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Inject, Injectable } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import { PassportStrategy } from '@nestjs/passport';</span>
-<span class="cstat-no" title="statement not covered" >import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';</span>
-import { Request } from 'express';
-<span class="cstat-no" title="statement not covered" >import { Cookie } from '../constant/cookie';</span>
-<span class="cstat-no" title="statement not covered" >import TSON from 'typescript-json';</span>
-<span class="cstat-no" title="statement not covered" >import { Account } from '@ACCOUNT/domain';</span>
-<span class="cstat-no" title="statement not covered" >import { AccountService } from '@ACCOUNT/application/adapter/account.service';</span>
-import { IAccountService } from '@ACCOUNT/application/port/account.service.port';
-&nbsp;
-type JwtPayload = Pick&lt;Account.Property, 'id'&gt;;
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Account } from '@ACCOUNT/domain';
+import { IEntityMapper } from '@COMMON/interface/mapper.interface';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { IAccountRepository } from '../port/account.repository.port';
+import { AccountEntity } from './account.entity';
+import { AccountEntityMapper } from './account.mapper';
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >JwtStrategy </span>extends PassportStrategy(Strategy) {</span></span>
-<span class="fstat-no" title="function not covered" >  constructor(</span>
-    @Inject(AccountService) private readonly <span class="cstat-no" title="statement not covered" >accountService: IAccountService,</span>
-  ) {
-    const option: StrategyOptions = <span class="cstat-no" title="statement not covered" >{</span>
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
-<span class="fstat-no" title="function not covered" >        (r</span>eq: Request) =&gt; <span class="cstat-no" title="statement not covered" >req.cookies[Cookie.name] ?? null,</span>
-      ]),
-      ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    };
-<span class="cstat-no" title="statement not covered" >    super(option);</span>
+export class AccountRepository implements IAccountRepository {
+  constructor(
+    @Inject(AccountEntityMapper)
+    private readonly mapper: IEntityMapper&lt;Account.Property, AccountEntity&gt;,
+    @InjectRepository(AccountEntity)
+    private readonly repository: Repository&lt;AccountEntity&gt;,
+  ) {}
+&nbsp;
+  async save(agg: Account.Property): Promise&lt;Account.Property&gt; {
+    return this.mapper.toAggregate(
+      await this.repository.save(this.mapper.toRootEntity(agg)),
+    );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>validate(dto: JwtPayload): Promise&lt;Account.Public&gt; {
-    const { id } = <span class="cstat-no" title="statement not covered" >TSON.assertType(dto);</span>
-<span class="cstat-no" title="statement not covered" >    return Account.getPublic(await this.accountService.findOne({ id }));</span>
+  async remove({ id }: Account.Property): Promise&lt;void&gt; {
+    await this.repository.delete(id);
+    return;
+  }
+&nbsp;
+  async findOne(
+    where: IAccountRepository.FindOne,
+  ): Promise&lt;Account.Property | null&gt; {
+    const entity = await this.repository.findOne({ where });
+    return entity == null ? null : this.mapper.toAggregate(entity);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -169,7 +178,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-05T13:37:42.475Z
+                at 2022-11-06T15:49:10.184Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
