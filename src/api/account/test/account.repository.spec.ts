@@ -5,10 +5,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { AccountEntity } from '@ACCOUNT/infrastructure/adapter/account.entity';
 import { mockRepository } from './repository.mock';
 import { Account } from '@ACCOUNT/domain';
+import { IAccountRepository } from '@ACCOUNT/infrastructure/port/account.repository.port';
+import { IEntityMapper } from '@COMMON/interface/mapper.interface';
 
 describe('Account Repository Unit Test', () => {
-  let repository: AccountRepository;
-  let mapper: AccountEntityMapper;
+  let repository: IAccountRepository;
+  let mapper: IEntityMapper<Account.Property, AccountEntity>;
   const mockRepo = mockRepository();
   const now1 = new Date();
   const now2 = new Date();
