@@ -22,6 +22,16 @@ export class AccountService implements IAccountService {
       : account;
   }
 
+  async checkPassword({
+    password,
+    hashed,
+  }: IAccountService.CheckPassword): Promise<void> {
+    if (!(await Crypto.compare(password, hashed))) {
+      throwHttpException('401', '비밀번호가 일치하지 않습니다.');
+    }
+    return;
+  }
+
   async signInLocal({
     password,
     ...where
@@ -46,16 +56,6 @@ export class AccountService implements IAccountService {
           ? AccountErrorMessage.username_unique
           : AccountErrorMessage.email_unique,
       );
-    }
-    return;
-  }
-
-  async checkPassword({
-    password,
-    hashed,
-  }: IAccountService.CheckPassword): Promise<void> {
-    if (!(await Crypto.compare(password, hashed))) {
-      throwHttpException('401', '비밀번호가 일치하지 않습니다.');
     }
     return;
   }
