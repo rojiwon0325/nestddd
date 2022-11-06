@@ -22,7 +22,7 @@ export class AccountService implements IAccountService {
       : account;
   }
 
-  async SignInLocal({
+  async signInLocal({
     password,
     ...where
   }: IAccountService.SignInLocal): Promise<Account.Property> {

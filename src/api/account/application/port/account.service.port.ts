@@ -25,7 +25,7 @@ export interface IAccountService {
   readonly findOne: (
     where: IAccountService.FindOne,
   ) => Promise<Account.Property>;
-  readonly SignInLocal: (
+  readonly signInLocal: (
     dto: IAccountService.SignInLocal,
   ) => Promise<Account.Property>;
   readonly checkPermission: (dto: IAccountService.CheckPermission) => void;
