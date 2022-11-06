@@ -23,36 +23,37 @@ export namespace User {
     readonly account: AccountEntity;
   }
 
-  type Required = keyof Pick<Property, 'account' | 'profile'>;
-
   export type Public = ProfileEntity &
     Pick<AccountEntity, 'id' | 'username' | 'role'>;
 
   export type PublicDetail = ProfileEntity &
     Pick<AccountEntity, 'id' | 'username' | 'email' | 'role' | 'verified'>;
-
-  export interface Method {
-    readonly get: (
-      args: Pick<Property, Required> & Partial<Omit<Property, Required>>,
-    ) => Property;
-    readonly getPublic: (agg: Property) => Public;
-    readonly getPublicDetail: (agg: Property) => PublicDetail;
-    readonly setProfile: (
-      agg: Property,
-      update: Partial<ProfileEntity>,
-    ) => Property;
-    readonly setUsername: (
-      agg: Property,
-      update: Pick<AccountEntity, 'username'>,
-    ) => Property;
-    readonly setPassword: (
-      agg: Property,
-      update: Account.Password,
-    ) => Promise<Property>;
-  }
 }
 
-export const User: User.Method = {
+type Required = keyof Pick<User.Property, 'account' | 'profile'>;
+
+export interface User {
+  readonly get: (
+    args: Pick<User.Property, Required> &
+      Partial<Omit<User.Property, Required>>,
+  ) => User.Property;
+  readonly getPublic: (agg: User.Property) => User.Public;
+  readonly getPublicDetail: (agg: User.Property) => User.PublicDetail;
+  readonly setProfile: (
+    agg: User.Property,
+    update: Partial<User.ProfileEntity>,
+  ) => User.Property;
+  readonly setUsername: (
+    agg: User.Property,
+    update: Pick<User.AccountEntity, 'username'>,
+  ) => User.Property;
+  readonly setPassword: (
+    agg: User.Property,
+    update: Account.Password,
+  ) => Promise<User.Property>;
+}
+
+export const User: User = {
   get(args) {
     const now = new Date();
     const {
