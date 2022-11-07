@@ -36,6 +36,6 @@ GIST_SECRET - gist create 권한을 가진 토큰
 
 ## API 문서
 
-- [View in the `Swagger Editor`](https://editor.swagger.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Frojiwon0325%2Fnestddd%2Fmain%2Fdoc%2Fswagger.json)
+- [View in the `Swagger Editor`](https://editor.swagger.io/?url=https://raw.githubusercontent.com/rojiwon0325/nestddd/main/doc/swagger.json)
 
 ## 진행상황
