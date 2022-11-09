@@ -1,8 +1,8 @@
-import { AccountModule } from '@ACCOUNT/account.module';
+import { AuthModule } from '@AUTH/auth.module';
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
+import { UserModule } from '@USER/user.module';
 
 @Module({
-  imports: [AccountModule, UserModule],
+  imports: [AuthModule, UserModule],
 })
 export class ApiModule {}
