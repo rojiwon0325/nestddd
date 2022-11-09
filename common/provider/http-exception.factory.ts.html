@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for account/infrastructure/adapter/account.repository.ts</title>
+    <title>Code coverage report for common/provider/http-exception.factory.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../prettify.css" />
-    <link rel="stylesheet" href="../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">account/infrastructure/adapter</a> account.repository.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">common/provider</a> http-exception.factory.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">46.15% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>12/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
@@ -98,23 +98,11 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,53 +112,62 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Account } from '@ACCOUNT/domain';
-import { IEntityMapper } from '@COMMON/interface/mapper.interface';
-import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { IAccountRepository } from '../port/account.repository.port';
-import { AccountEntity } from './account.entity';
-import { AccountEntityMapper } from './account.mapper';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  BadRequestException,
+  ForbiddenException,
+  HttpException,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ExceptionMessage } from './exception-message';
 &nbsp;
-@Injectable()
-export class AccountRepository implements IAccountRepository {
-  constructor(
-    @Inject(AccountEntityMapper)
-    private readonly mapper: IEntityMapper&lt;Account.Property, AccountEntity&gt;,
-    @InjectRepository(AccountEntity)
-    private readonly repository: Repository&lt;AccountEntity&gt;,
-  ) {}
+export type Status =
+  | 'BadRequest'
+  | 'UnAuthorized'
+  | 'Forbidden'
+  | 'NotFound'
+  | 'ISE';
 &nbsp;
-  async save(agg: Account.Property): Promise&lt;Account.Property&gt; {
-    return this.mapper.toAggregate(
-      await this.repository.save(this.mapper.toRootEntity(agg)),
-    );
+export const HttpExceptionFactory = (
+  status: Status,
+  message?: string,
+): HttpException =&gt; {
+  switch (status) {
+    case 'BadRequest':
+      return new BadRequestException(message ?? <span class="branch-1 cbranch-no" title="branch not covered" >ExceptionMessage.BR)</span>;
+<span class="branch-1 cbranch-no" title="branch not covered" >    case 'UnAuthorized':</span>
+<span class="cstat-no" title="statement not covered" >      return new UnauthorizedException(message ?? ExceptionMessage.UAE);</span>
+    case 'Forbidden':
+      return new ForbiddenException(<span class="branch-0 cbranch-no" title="branch not covered" >message </span>?? ExceptionMessage.FBD);
+    case 'NotFound':
+      return new NotFoundException(<span class="branch-0 cbranch-no" title="branch not covered" >message </span>?? ExceptionMessage.NF);
+<span class="branch-4 cbranch-no" title="branch not covered" >    case 'ISE':</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >    default:</span>
+<span class="cstat-no" title="statement not covered" >      return new InternalServerErrorException(message ?? ExceptionMessage.ISE);</span>
   }
-&nbsp;
-  async remove({ id }: Account.Property): Promise&lt;void&gt; {
-    await this.repository.delete(id);
-    return;
-  }
-&nbsp;
-  async findOne(
-    where: IAccountRepository.FindOne,
-  ): Promise&lt;Account.Property | null&gt; {
-    const entity = await this.repository.findOne({ where });
-    return entity == null ? null : this.mapper.toAggregate(entity);
-  }
-}
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -178,16 +175,16 @@ export class AccountRepository implements IAccountRepository {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-06T15:49:10.184Z
+                at 2022-11-09T17:24:36.433Z
             </div>
-        <script src="../../../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../sorter.js"></script>
-        <script src="../../../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

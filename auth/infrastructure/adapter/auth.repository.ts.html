@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for user/application/adapter/user.service.ts</title>
+    <title>Code coverage report for auth/infrastructure/adapter/auth.repository.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">user/application/adapter</a> user.service.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">auth/infrastructure/adapter</a> auth.repository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -82,51 +82,42 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { HttpExceptionFactory } from '@COMMON/provider/http-exception.factory';</span>
-<span class="cstat-no" title="statement not covered" >import { throw_if_null } from '@COMMON/util/throw-if-null';</span>
-<span class="cstat-no" title="statement not covered" >import { Inject, Injectable } from '@nestjs/common';</span>
-import { User } from '@USER/domain';
-<span class="cstat-no" title="statement not covered" >import { UserRepository } from '@USER/infrastructure/adapter/user.repository';</span>
-import { IUserRepository } from '@USER/infrastructure/port/user.repository.port';
-import { IUserService } from '../port/user.service.port';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { if_not_null } from '@COMMON/util/if-not-null';
+import { Auth } from '@AUTH/domain';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from '@USER/infrastructure/adapter/user.entity';
+import { Repository } from 'typeorm';
+import { IAuthRepository } from '../port/auth.repository.port';
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >UserService </span>implements IUserService {</span></span>
-<span class="fstat-no" title="function not covered" >  constructor(</span>
-    @Inject(UserRepository)
-    private readonly <span class="cstat-no" title="statement not covered" >userRepository: IUserRepository,</span>
+export class AuthRepository implements IAuthRepository {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository&lt;UserEntity&gt;,
   ) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>findOne({ id }: IUserService.FindOne): Promise&lt;User.State&gt; {
-<span class="cstat-no" title="statement not covered" >    return throw_if_null(</span>
-      await this.userRepository.findOne({ id }),
-      HttpExceptionFactory('NotFound'),
-    );
+  async findOne(where: IAuthRepository.FindOne): Promise&lt;Auth.State | null&gt; {
+    return if_not_null(await this.repository.findOne({ where }), Auth.get);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
