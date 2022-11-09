@@ -3,6 +3,7 @@ import { IEntityMapper } from '../interface/mapper.interface';
 import { IBaseRepository } from '../interface/base-repository.interface';
 import { TypeOrmBaseEntity } from './base-entity.typeorm';
 import { IBaseAggregate } from '@COMMON/interface/base-aggregate.interface';
+import { if_not_null } from '@COMMON/util/if-not-null';
 
 export abstract class TypeOrmBaseRepository<
   Aggregate extends IBaseAggregate<number>,
@@ -14,12 +15,12 @@ export abstract class TypeOrmBaseRepository<
     private readonly repository: Repository<RootEntity>,
   ) {}
 
-  async findOne({
-    id,
-  }: Pick<IBaseAggregate<number>, 'id'>): Promise<Aggregate | null> {
+  async findOne({ id }: Pick<Aggregate, 'id'>): Promise<Aggregate | null> {
     const where: FindOptionsWhere<unknown> = { id };
-    const entity = await this.repository.findOne({ where });
-    return entity == null ? null : this.mapper.toAggregate(entity);
+    return if_not_null(
+      await this.repository.findOne({ where }),
+      this.mapper.toAggregate,
+    );
   }
 
   async findMany(): Promise<Aggregate[]> {
@@ -37,7 +38,7 @@ export abstract class TypeOrmBaseRepository<
     };
   }
 
-  async remove({ id }: Pick<IBaseAggregate<number>, 'id'>): Promise<void> {
+  async remove({ id }: Pick<Aggregate, 'id'>): Promise<void> {
     await this.repository.delete(id);
     return;
   }
