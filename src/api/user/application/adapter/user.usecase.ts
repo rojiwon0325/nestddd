@@ -1,5 +1,6 @@
-import { AccountService } from '@ACCOUNT/application/adapter/account.service';
-import { IAccountService } from '@ACCOUNT/application/port/account.service.port';
+import { AuthService } from '@AUTH/application/adapter/auth.service';
+import { IAuthService } from '@AUTH/application/port/auth.service.port';
+import { Crypto } from '@CRYPTO/domain';
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@USER/domain';
 import { UserRepository } from '@USER/infrastructure/adapter/user.repository';
@@ -11,51 +12,52 @@ import { UserService } from './user.service';
 @Injectable()
 export class UserUsecase implements IUserUsecase {
   constructor(
-    @Inject(AccountService) private readonly accountService: IAccountService,
-    @Inject(UserRepository) private readonly userRepository: IUserRepository,
-    @Inject(UserService) private readonly userService: IUserService,
+    @Inject(AuthService)
+    private readonly authService: IAuthService,
+    @Inject(UserService)
+    private readonly userService: IUserService,
+    @Inject(UserRepository)
+    private readonly userRepository: IUserRepository,
   ) {}
-  async findOne(where: IUserUsecase.FindOne): Promise<User.Public> {
-    return User.getPublic(await this.userService.findOne(where));
+
+  async findOne({ id }: IUserUsecase.FindOne): Promise<User.Profile> {
+    return User.getProfile(await this.userService.findOne({ id }));
   }
-  async findMe(where: IUserUsecase.FindMe): Promise<User.PublicDetail> {
-    return User.getPublicDetail(await this.userService.findOne(where));
+
+  async findMe({ id }: IUserUsecase.FindOne): Promise<User.ProfileDetail> {
+    return User.getProfileDetail(await this.userService.findOne({ id }));
   }
-  /** account정보에 해당하는 user를 생성한다. 만약 이미 있다면 덮어쓴다.(?) */
-  async createProfile(
-    where: IUserUsecase.FindMe,
-    { bio }: IUserUsecase.CreateProfile,
-  ): Promise<User.PublicDetail> {
-    return User.getPublicDetail(
+
+  async create({
+    username,
+    email,
+    password,
+  }: IUserUsecase.Create): Promise<User.ProfileDetail> {
+    await this.authService.checkDuplicate({ email });
+
+    const hashed = await Crypto.encrypt(password);
+    return User.getProfileDetail(
       await this.userRepository.save(
-        User.get({
-          account: await this.accountService.findOne(where),
-          profile: { bio },
-        }),
-      ),
-    );
-  }
-  /** account는 존재하지만 user 정보가 존재하지 않는 경우, NotFound에러를 발생시킨다. */
-  async updateProfile(
-    where: IUserUsecase.FindMe,
-    update: IUserUsecase.UpdateProfile,
-  ): Promise<User.PublicDetail> {
-    return User.getPublicDetail(
-      await this.userRepository.save(
-        User.setProfile(await this.userService.findOne(where), update),
+        User.get({ email, username, password: hashed }),
       ),
     );
   }
 
-  async updateUsername(
-    where: IUserUsecase.FindMe,
-    { username }: IUserUsecase.UpdateUsername,
-  ): Promise<User.PublicDetail> {
-    await this.accountService.checkDuplicate({ username });
-    return User.getPublicDetail(
-      await this.userRepository.save(
-        User.setUsername(await this.userService.findOne(where), { username }),
-      ),
-    );
+  async update(
+    { id }: IUserUsecase.FindOne,
+    { username, bio, birth, phone }: IUserUsecase.Update,
+  ): Promise<User.ProfileDetail> {
+    const user = await this.userService.findOne({ id });
+    if (username) User.setUsername(user, { username });
+    User.setMetadata(user, {
+      ...(bio ? { bio } : {}),
+      ...(birth ? { birth } : {}),
+      ...(phone ? { phone } : {}),
+    });
+    return User.getProfileDetail(await this.userRepository.save(user));
+  }
+
+  remove({ id }: IUserUsecase.FindOne): Promise<void> {
+    return this.userRepository.remove({ id });
   }
 }

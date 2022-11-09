@@ -1,20 +1,30 @@
-import { AccountEntity } from '@ACCOUNT/infrastructure/adapter/account.entity';
+import { User } from '@USER/domain';
 import { TypeOrmBaseEntity } from '@COMMON/base/base-entity.typeorm';
-import { Column, Entity, JoinColumn, OneToOne, RelationId } from 'typeorm';
-import { IUserRepository } from '../port/user.repository.port';
+import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'users' })
-export class UserEntity
-  extends TypeOrmBaseEntity
-  implements IUserRepository.Entity
-{
-  @Column({ default: '' })
-  bio!: string;
+export class UserEntity extends TypeOrmBaseEntity {
+  @Column({ unique: true })
+  email!: string;
 
-  @RelationId((user: UserEntity) => user.account)
-  account_id!: number;
+  @Column({ default: false })
+  verified!: boolean;
 
-  @OneToOne(() => AccountEntity, { onDelete: 'CASCADE', cascade: ['update'] })
-  @JoinColumn()
-  account!: AccountEntity;
+  @Column()
+  password!: string;
+
+  @Column()
+  username!: string;
+
+  @Column({ default: 'Normal' })
+  role!: User.Permission;
+
+  @Column({ default: null, nullable: true })
+  bio?: string;
+
+  @Column({ default: null, nullable: true })
+  phone?: string;
+
+  @Column({ default: null, nullable: true })
+  birth?: string;
 }
