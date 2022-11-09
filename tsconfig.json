@@ -30,7 +30,7 @@
 
     "paths": {  
       "@COMMON/*":["src/api/common/*"],
-      "@ACCOUNT/*":["src/api/account/*"],
+      "@AUTH/*":["src/api/auth/*"],
       "@USER/*":["src/api/user/*"],
       "@CRYPTO/*":["src/api/crypto/*"]
     },

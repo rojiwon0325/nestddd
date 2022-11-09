@@ -1,5 +1,5 @@
 import { IErrorResponse } from '@COMMON/interface/response.interface';
-import { ExceptionMessage } from '@COMMON/provider/message.provider';
+import { ExceptionMessage } from '@COMMON/provider/exception-message';
 import {
   ExceptionFilter,
   Catch,
