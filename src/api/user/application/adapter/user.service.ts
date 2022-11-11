@@ -1,4 +1,4 @@
-import { HttpExceptionFactory } from '@COMMON/provider/http-exception.factory';
+import { HttpExceptionFactory } from '@COMMON/exception/http-exception.factory';
 import { throw_if_null } from '@COMMON/util/throw-if-null';
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@USER/domain';

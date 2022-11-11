@@ -13,7 +13,10 @@
   "paths": {
     "/auth/sign-in": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth",
+          "public"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "로그인에 사용되는 이메일과 비밀번호를 포함한다",
@@ -49,7 +52,9 @@
     },
     "/auth/sign-out": {
       "get": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -68,10 +73,13 @@
     },
     "/users": {
       "post": {
-        "tags": [],
+        "tags": [
+          "user",
+          "public"
+        ],
         "parameters": [],
         "requestBody": {
-          "description": "",
+          "description": "사용자 계정 정보 전달",
           "content": {
             "application/json": {
               "schema": {
@@ -83,7 +91,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
+            "description": "생성된 사용자의 세부 프로필 정보 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -91,18 +99,23 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "email duplicate"
           }
         },
-        "description": ""
+        "description": "사용자 회원가입 API"
       }
     },
     "/users/me": {
       "get": {
-        "tags": [],
+        "tags": [
+          "user"
+        ],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "사용자 상세 프로필 정보",
             "content": {
               "application/json": {
                 "schema": {
@@ -110,15 +123,20 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "사용자가 존재하지 않는 경우"
           }
         },
-        "description": ""
+        "description": "내 정보 보기 API"
       },
       "patch": {
-        "tags": [],
+        "tags": [
+          "user"
+        ],
         "parameters": [],
         "requestBody": {
-          "description": "",
+          "description": "변경할 정보만 포함",
           "content": {
             "application/json": {
               "schema": {
@@ -130,7 +148,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
+            "description": "변경된 사용자 프로필 정보",
             "content": {
               "application/json": {
                 "schema": {
@@ -140,14 +158,16 @@
             }
           }
         },
-        "description": ""
+        "description": "내 프로필 정보 수정 API"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "user"
+        ],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "삭제된 계정 id",
             "content": {
               "application/json": {
                 "schema": {
@@ -157,17 +177,20 @@
             }
           }
         },
-        "description": ""
+        "description": "내 계정 삭제 API"
       }
     },
     "/users/{user_id}": {
       "get": {
-        "tags": [],
+        "tags": [
+          "user",
+          "public"
+        ],
         "parameters": [
           {
             "name": "user_id",
             "in": "path",
-            "description": "",
+            "description": "사용자 id",
             "schema": {
               "type": "number",
               "nullable": false
@@ -177,7 +200,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "사용자 공개 프로필 정보",
             "content": {
               "application/json": {
                 "schema": {
@@ -187,7 +210,7 @@
             }
           }
         },
-        "description": ""
+        "description": "사용자 조회 API"
       }
     }
   },
@@ -376,34 +399,12 @@
           },
           "phone": {
             "type": "string",
-            "nullable": false
-          },
-          "birth": {
-            "type": "string",
-            "nullable": false
-          },
-          "id": {
-            "type": "number",
             "nullable": false,
-            "description": "애그리거트의 id"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "Admin",
-              "Manager",
-              "Normal"
-            ],
-            "nullable": false
-          },
-          "username": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "description": "사용자 전화번호",
             "x-tson-metaTags": [
               {
                 "kind": "pattern",
-                "value": "^\\w{6,15}$"
+                "value": "^010-\\d{4}-\\d{4}$"
               }
             ],
             "x-tson-jsDocTags": [
@@ -411,13 +412,41 @@
                 "name": "pattern",
                 "text": [
                   {
-                    "text": "^\\w{6,15}$",
+                    "text": "^010-\\d{4}-\\d{4}$",
                     "kind": "text"
                   }
                 ]
               }
             ],
-            "pattern": "^\\w{6,15}$"
+            "pattern": "^010-\\d{4}-\\d{4}$"
+          },
+          "birth": {
+            "type": "string",
+            "nullable": false,
+            "description": "태어난 날짜 정보\nYYYY-MM-DD 형식",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+          },
+          "id": {
+            "type": "number",
+            "nullable": false,
+            "description": "애그리거트의 id"
           },
           "email": {
             "type": "string",
@@ -441,19 +470,51 @@
             ],
             "format": "email"
           },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Admin",
+              "Manager",
+              "Normal"
+            ],
+            "nullable": false
+          },
           "verified": {
             "type": "boolean",
             "nullable": false,
             "description": "이메일 인증 여부"
+          },
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\w{6,15}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\w{6,15}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\w{6,15}$"
           }
         },
         "nullable": false,
         "required": [
           "id",
-          "role",
-          "username",
           "email",
-          "verified"
+          "role",
+          "verified",
+          "username"
         ],
         "x-tson_jsDocTags": []
       },
@@ -461,14 +522,6 @@
         "type": "object",
         "properties": {
           "bio": {
-            "type": "string",
-            "nullable": false
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false
-          },
-          "birth": {
             "type": "string",
             "nullable": false
           },
@@ -550,11 +603,49 @@
           },
           "birth": {
             "type": "string",
-            "nullable": false
+            "nullable": false,
+            "description": "태어난 날짜 정보\nYYYY-MM-DD 형식",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
           },
           "phone": {
             "type": "string",
-            "nullable": false
+            "nullable": false,
+            "description": "사용자 전화번호",
+            "x-tson-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^010-\\d{4}-\\d{4}$"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^010-\\d{4}-\\d{4}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "pattern": "^010-\\d{4}-\\d{4}$"
           }
         },
         "nullable": false,
@@ -562,21 +653,8 @@
       },
       "__object.o2": {
         "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "nullable": false
-          },
-          "message": {
-            "type": "string",
-            "nullable": false
-          }
-        },
+        "properties": {},
         "nullable": false,
-        "required": [
-          "status",
-          "message"
-        ],
         "x-tson_jsDocTags": []
       }
     }

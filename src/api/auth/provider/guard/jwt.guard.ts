@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { PUBLIC_KEY } from '../constant/public.key';
-import { HttpExceptionFactory } from '@COMMON/provider/http-exception.factory';
+import { HttpExceptionFactory } from '@COMMON/exception';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

@@ -1,4 +1,4 @@
-export type IErrorResponse = {
+export type IResponse = {
   statusCode: number;
   message: string;
 };

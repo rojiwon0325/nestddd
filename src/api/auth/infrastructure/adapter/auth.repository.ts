@@ -1,4 +1,4 @@
-import { if_not_null } from '@COMMON/util/if-not-null';
+import { if_not_null } from '@COMMON/util';
 import { Auth } from '@AUTH/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';

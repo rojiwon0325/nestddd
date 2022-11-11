@@ -9,7 +9,7 @@ import { ROLE_KEY } from '../constant/role.key';
 import { IAuthService } from '@AUTH/application/port/auth.service.port';
 import { Auth } from '@AUTH/domain';
 import { AuthService } from '@AUTH/application/adapter/auth.service';
-import { HttpExceptionFactory } from '@COMMON/provider/http-exception.factory';
+import { HttpExceptionFactory } from '@COMMON/exception';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
