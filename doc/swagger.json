@@ -13,7 +13,9 @@
   "paths": {
     "/auth/sign-in": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "로그인에 사용되는 이메일과 비밀번호를 포함한다",
@@ -49,7 +51,7 @@
     },
     "/auth/sign-out": {
       "get": {
-        "tags": ["auth"],
+        "tags": [],
         "parameters": [],
         "responses": {
           "200": {

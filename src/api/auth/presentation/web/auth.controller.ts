@@ -14,7 +14,7 @@ export class AuthController {
 
   /**
    * 사용자 로그인 API
-   * @tags auth
+   * @tag auth
    * @throw 404 존재하지 않는 사용자인 경우
    * @throw 400 비밀번호가 일치하지 않거나 이메일 인증이 완료되지 않은 경우
    * @param body 로그인에 사용되는 이메일과 비밀번호를 포함한다
@@ -39,6 +39,7 @@ export class AuthController {
    * 로그아웃 API
    * 사용자 쿠키에 있는 토큰을 제거한다.
    * 추후에 별도의 인증서버를 연동할 경우, 해당 인증서버에 로그아웃 요청을 보낸다.
+   * @tag auth
    */
   @Get('sign-out')
   signOut(@Res({ passthrough: true }) res: Response) {
