@@ -2,7 +2,7 @@ import { AuthService } from '@AUTH/application/adapter/auth.service';
 import { IAuthService } from '@AUTH/application/port/auth.service.port';
 import { Auth } from '@AUTH/domain';
 import { AuthRepository } from '@AUTH/infrastructure/adapter/auth.repository';
-import { ExceptionMessage } from '@COMMON/provider/exception-message';
+import { ExceptionMessage } from '@COMMON/exception';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '@USER/infrastructure/adapter/user.entity';

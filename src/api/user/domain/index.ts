@@ -6,7 +6,16 @@ export namespace User {
 
   export type MetadataVO = {
     readonly bio?: string;
+    /**
+     * 사용자 전화번호
+     * @pattern ^010-\d{4}-\d{4}$
+     */
     readonly phone?: string;
+    /**
+     * 태어난 날짜 정보
+     * YYYY-MM-DD 형식
+     * @pattern ^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$
+     */
     readonly birth?: string;
   };
   export interface State extends IBaseAggregate<Id> {
@@ -36,9 +45,11 @@ export namespace User {
     readonly metadata: MetadataVO;
   }
 
-  export type Profile = MetadataVO & Pick<State, 'id' | 'username' | 'role'>;
+  export type Profile = Pick<MetadataVO, 'bio'> &
+    Pick<State, 'id' | 'username' | 'role'>;
 
-  export type ProfileDetail = Profile & Pick<State, 'email' | 'verified'>;
+  export type ProfileDetail = MetadataVO &
+    Pick<State, 'id' | 'email' | 'verified' | 'username' | 'role'>;
 }
 
 type Required = keyof Pick<User.State, 'password' | 'email' | 'username'>;
@@ -53,13 +64,10 @@ export interface User {
   readonly getProfile: (agg: User.State) => User.Profile;
   readonly getProfileDetail: (agg: User.State) => User.ProfileDetail;
   readonly setUsername: (
-    agg: Pick<User.State, 'username'>,
+    agg: User.State,
     update: Pick<User.State, 'username'>,
   ) => void;
-  readonly setMetadata: (
-    agg: Pick<User.State, 'metadata'>,
-    update: User.MetadataVO,
-  ) => void;
+  readonly setMetadata: (agg: User.State, update: User.MetadataVO) => void;
 }
 
 export const User: User = {
@@ -97,9 +105,9 @@ export const User: User = {
       id,
       username,
       role,
-      metadata: { bio, birth, phone },
+      metadata: { bio },
     } = agg;
-    return { id, username, role, bio, birth, phone };
+    return { id, username, role, bio };
   },
   getProfileDetail(agg) {
     const {

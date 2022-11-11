@@ -1,6 +1,7 @@
 import { AuthUsecase } from '@AUTH/application/adapter/auth.usecase';
 import { IAuthUsecase } from '@AUTH/application/port/auth.usecase.port';
 import { Cookie } from '@AUTH/provider/constant/cookie';
+import { Public } from '@AUTH/provider/decorator/public.decorator';
 import { Controller, Get, HttpCode, Inject, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import helper from 'nestia-helper';
@@ -15,11 +16,13 @@ export class AuthController {
   /**
    * 사용자 로그인 API
    * @tag auth
+   * @tag public
    * @throw 404 존재하지 않는 사용자인 경우
    * @throw 400 비밀번호가 일치하지 않거나 이메일 인증이 완료되지 않은 경우
    * @param body 로그인에 사용되는 이메일과 비밀번호를 포함한다
    * @returns access_token 전달, 해당 토큰은 쿠키에도 저장됨
    */
+  @Public()
   @Post('sign-in')
   @HttpCode(202)
   async signIn(
