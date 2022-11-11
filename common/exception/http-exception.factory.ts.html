@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for common/provider/http-exception.factory.ts</title>
+    <title>Code coverage report for common/exception/http-exception.factory.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">common/provider</a> http-exception.factory.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">common/exception</a> http-exception.factory.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.15% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/26</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -98,39 +98,39 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
@@ -156,16 +156,16 @@ export const HttpExceptionFactory = (
 ): HttpException =&gt; {
   switch (status) {
     case 'BadRequest':
-      return new BadRequestException(message ?? <span class="branch-1 cbranch-no" title="branch not covered" >ExceptionMessage.BR)</span>;
-<span class="branch-1 cbranch-no" title="branch not covered" >    case 'UnAuthorized':</span>
-<span class="cstat-no" title="statement not covered" >      return new UnauthorizedException(message ?? ExceptionMessage.UAE);</span>
+      return new BadRequestException(message ?? ExceptionMessage.BR);
+    case 'UnAuthorized':
+      return new UnauthorizedException(message ?? ExceptionMessage.UAE);
     case 'Forbidden':
-      return new ForbiddenException(<span class="branch-0 cbranch-no" title="branch not covered" >message </span>?? ExceptionMessage.FBD);
+      return new ForbiddenException(message ?? ExceptionMessage.FBD);
     case 'NotFound':
-      return new NotFoundException(<span class="branch-0 cbranch-no" title="branch not covered" >message </span>?? ExceptionMessage.NF);
-<span class="branch-4 cbranch-no" title="branch not covered" >    case 'ISE':</span>
-<span class="branch-5 cbranch-no" title="branch not covered" >    default:</span>
-<span class="cstat-no" title="statement not covered" >      return new InternalServerErrorException(message ?? ExceptionMessage.ISE);</span>
+      return new NotFoundException(message ?? ExceptionMessage.NF);
+    case 'ISE':
+    default:
+      return new InternalServerErrorException(message ?? ExceptionMessage.ISE);
   }
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -175,7 +175,7 @@ export const HttpExceptionFactory = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-09T17:24:36.433Z
+                at 2022-11-11T17:18:22.631Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

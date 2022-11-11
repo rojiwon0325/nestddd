@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,17 +100,14 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,34 +118,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IEntityMapper } from '@COMMON/interface/mapper.interface';
-<span class="cstat-no" title="statement not covered" >import { Injectable } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import { User } from '@USER/domain';</span>
-<span class="cstat-no" title="statement not covered" >import { UserEntity } from './user.entity';</span>
+import { Injectable } from '@nestjs/common';
+import { User } from '@USER/domain';
+import { UserEntity } from './user.entity';
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >UserEntityMapper </span>implements IEntityMapper&lt;User.State, UserEntity&gt; {</span></span>
-<span class="fstat-no" title="function not covered" >  toAggregate(</span>entity: UserEntity): User.State {
-<span class="cstat-no" title="statement not covered" >    return User.get({</span>
+export class UserEntityMapper implements IEntityMapper&lt;User.State, UserEntity&gt; {
+  toAggregate(entity: UserEntity): User.State {
+    return User.get({
       ...entity,
       metadata: { ...entity },
     });
   }
-<span class="fstat-no" title="function not covered" >  toRootEntity(</span>aggregate: User.State): UserEntity {
+  toRootEntity(aggregate: User.State): UserEntity {
     const {
       id,
       username,
@@ -157,18 +157,18 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
       role,
       password,
       metadata: { bio, birth, phone },
-    } = <span class="cstat-no" title="statement not covered" >aggregate;</span>
-    const entity = <span class="cstat-no" title="statement not covered" >new UserEntity();</span>
-<span class="cstat-no" title="statement not covered" >    entity.username = username;</span>
-<span class="cstat-no" title="statement not covered" >    entity.email = email;</span>
-<span class="cstat-no" title="statement not covered" >    entity.verified = verified;</span>
-<span class="cstat-no" title="statement not covered" >    entity.role = role;</span>
-<span class="cstat-no" title="statement not covered" >    entity.password = password;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (id) <span class="cstat-no" title="statement not covered" >entity.id = id;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (bio) <span class="cstat-no" title="statement not covered" >entity.bio = bio;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (birth) <span class="cstat-no" title="statement not covered" >entity.birth = birth;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (phone) <span class="cstat-no" title="statement not covered" >entity.phone = phone;</span></span>
-<span class="cstat-no" title="statement not covered" >    return entity;</span>
+    } = aggregate;
+    const entity = new UserEntity();
+    entity.username = username;
+    entity.email = email;
+    entity.verified = verified;
+    entity.role = role;
+    entity.password = password;
+    if (id) entity.id = id;
+    if (bio) entity.bio = bio;
+    if (birth) entity.birth = birth;
+    if (phone) entity.phone = phone;
+    return entity;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -178,7 +178,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-09T17:24:36.433Z
+                at 2022-11-11T17:18:22.631Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
