@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "main": "dist/main",
   "scripts": {
     "tsc": "tsc -h",
     "build": "rimraf dist && ttsc -p ./tsconfig.build.json",
@@ -25,8 +26,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json",
-    "swagger": "nestia swagger 'src/**/*.controller.ts' --out 'doc/swagger.json'",
-    "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'doc/sdk'"
+    "swagger": "nestia swagger",
+    "sdk": "nestia sdk"
   },
   "dependencies": {
     "@nestjs/common": "^9.2.0",
@@ -38,14 +39,13 @@
     "@nestjs/typeorm": "^9.0.1",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
-    "cross-env": "^7.0.3",
     "helmet": "^6.0.0",
     "joi": "^17.7.0",
     "mysql2": "^2.3.3",
+    "nestia-fetcher": "^2.0.3",
     "nestia-helper": "^3.1.10",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
     "rxjs": "^7.5.7",
     "typeorm": "^0.3.10",
     "typescript-json": "^3.3.23"
@@ -63,6 +63,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -70,6 +71,7 @@
     "nestia": "^3.1.4",
     "pm2": "^5.2.2",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.1",
     "ts-jest": "29.0.3",

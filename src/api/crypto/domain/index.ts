@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export interface Crypto {
   readonly encrypt: (arg: string) => Promise<string>;

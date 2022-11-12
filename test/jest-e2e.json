@@ -7,6 +7,10 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^src/(.*)$": "<rootDir>/../src/$1"
+    "^src/(.*)$": "<rootDir>/../src/$1",
+      "@COMMON/(.*)$": "<rootDir>/../src/api/common/$1",
+      "@AUTH/(.*)$": "<rootDir>/../src/api/auth/$1",
+      "@USER/(.*)$": "<rootDir>/../src/api/user/$1",
+      "@CRYPTO/(.*)$": "<rootDir>/../src/api/crypto/$1"
   }
 }

@@ -1,4 +1,4 @@
-import { IErrorResponse } from '@COMMON/interface/response.interface';
+import { IResponse } from '@COMMON/interface/response.interface';
 import { ExceptionMessage } from '@COMMON/exception/exception-message';
 import {
   ExceptionFilter,
@@ -17,7 +17,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     let statusCode: number;
-    let responseBody: IErrorResponse;
+    let responseBody: IResponse;
     if (exception instanceof HttpException) {
       statusCode = exception.getStatus();
       responseBody = {

@@ -3,11 +3,11 @@
   "servers": [
     {
       "url": "https://github.com/rojiwon0325/nestddd",
-      "description": "nest template for ddd"
+      "description": "nestjs template for ddd"
     }
   ],
   "info": {
-    "version": "0.1.0",
+    "version": "0.0.1",
     "title": "NestDDD - nestjs template designed DDD"
   },
   "paths": {

@@ -1,15 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { InfrastructureModule } from 'src/infrastructure/infrastructure.module';
+import { InfrastructureModule } from '../src/infrastructure/infrastructure.module';
 
 describe('User API e2e test', () => {
   let app: INestApplication;
   let req: request.SuperTest<request.Test>;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
