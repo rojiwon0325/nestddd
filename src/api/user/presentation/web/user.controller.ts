@@ -83,7 +83,7 @@ export class UserController {
    * @returns 삭제된 계정 id
    */
   @Delete('me')
-  async remove(@AuthPublic() { id }: Auth.Public) {
+  async remove(@AuthPublic() { id }: Auth.Public): Promise<{ id: number }> {
     await this.usecase.remove({ id });
     return { id };
   }

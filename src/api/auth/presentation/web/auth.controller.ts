@@ -2,6 +2,7 @@ import { AuthUsecase } from '@AUTH/application/adapter/auth.usecase';
 import { IAuthUsecase } from '@AUTH/application/port/auth.usecase.port';
 import { Cookie } from '@AUTH/provider/constant/cookie';
 import { Public } from '@AUTH/provider/decorator/public.decorator';
+import { IResponse } from '@COMMON/interface';
 import { Controller, Get, HttpCode, Inject, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import helper from 'nestia-helper';
@@ -45,8 +46,8 @@ export class AuthController {
    * @tag auth
    */
   @Get('sign-out')
-  signOut(@Res({ passthrough: true }) res: Response) {
+  signOut(@Res({ passthrough: true }) res: Response): IResponse {
     res.clearCookie(Cookie.name);
-    return { status: 200, message: 'successed' };
+    return { statusCode: 200, message: 'successed' };
   }
 }
