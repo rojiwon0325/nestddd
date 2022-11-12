@@ -23,7 +23,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignIn"
+                "$ref": "#/components/schemas/IAuthUsecase.SignIn"
               }
             }
           },
@@ -95,7 +95,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProfileDetail"
+                  "$ref": "#/components/schemas/User.ProfileDetail"
                 }
               }
             }
@@ -119,7 +119,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProfileDetail"
+                  "$ref": "#/components/schemas/User.ProfileDetail"
                 }
               }
             }
@@ -140,7 +140,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Update"
+                "$ref": "#/components/schemas/IUserUsecase.Update"
               }
             }
           },
@@ -152,7 +152,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProfileDetail"
+                  "$ref": "#/components/schemas/User.ProfileDetail"
                 }
               }
             }
@@ -204,7 +204,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Profile"
+                  "$ref": "#/components/schemas/User.Profile"
                 }
               }
             }
@@ -216,7 +216,7 @@
   },
   "components": {
     "schemas": {
-      "SignIn": {
+      "IAuthUsecase.SignIn": {
         "type": "object",
         "properties": {
           "email": {
@@ -399,7 +399,7 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "ProfileDetail": {
+      "User.ProfileDetail": {
         "type": "object",
         "properties": {
           "bio": {
@@ -535,7 +535,7 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "Profile": {
+      "User.Profile": {
         "type": "object",
         "properties": {
           "bio": {
@@ -592,7 +592,7 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "Update": {
+      "IUserUsecase.Update": {
         "type": "object",
         "properties": {
           "username": {
