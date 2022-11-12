@@ -83,7 +83,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Create"
+                "$ref": "#/components/schemas/IUserUsecase.Create"
               }
             }
           },
@@ -316,9 +316,32 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "Create": {
+      "IUserUsecase.Create": {
         "type": "object",
         "properties": {
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "x-tson-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-tson-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-tson-required": true,
+            "format": "email"
+          },
           "password": {
             "type": "string",
             "nullable": false,
@@ -366,36 +389,13 @@
             ],
             "x-tson-required": true,
             "pattern": "^\\w{6,15}$"
-          },
-          "email": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-metaTags": [
-              {
-                "kind": "format",
-                "value": "email"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "email",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "format": "email"
           }
         },
         "nullable": false,
         "required": [
+          "email",
           "password",
-          "username",
-          "email"
+          "username"
         ],
         "x-tson_jsDocTags": []
       },
