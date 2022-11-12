@@ -1,5 +1,5 @@
 import { Crypto } from '@CRYPTO/domain';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 jest.mock('bcrypt');
 const { encrypt, compare } = Crypto;
 
