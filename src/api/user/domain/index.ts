@@ -4,7 +4,7 @@ export namespace User {
   export type Id = number;
   export type Permission = 'Admin' | 'Manager' | 'Normal';
 
-  export type MetadataVO = {
+  export interface MetadataVO {
     readonly bio?: string;
     /**
      * 사용자 전화번호
@@ -17,7 +17,7 @@ export namespace User {
      * @pattern ^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$
      */
     readonly birth?: string;
-  };
+  }
   export interface State extends IBaseAggregate<Id> {
     /**
      * @format email

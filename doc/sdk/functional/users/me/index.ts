@@ -10,7 +10,7 @@ import TSON from "typescript-json";
 
 import type { User } from "./../../../../../src/api/user/domain/index";
 import type { IUserUsecase } from "./../../../../../src/api/user/application/port/user.usecase.port";
-import type { __object } from "./../../../../../src/api/user/presentation/web/user.controller";
+import type { __type } from "./../../../../../src/api/user/presentation/web/user.controller";
 
 /**
  * 내 정보 보기 API
@@ -125,7 +125,7 @@ export function remove
 }
 export namespace remove
 {
-    export type Output = __object;
+    export type Output = __type;
 
     export const METHOD = "DELETE" as const;
     export const PATH: string = "/users/me";

@@ -8,6 +8,7 @@ import { Fetcher } from "nestia-fetcher";
 import type { IConnection } from "nestia-fetcher";
 import TSON from "typescript-json";
 
+import type { IUserUsecase } from "./../../../../src/api/user/application/port/user.usecase.port";
 import type { User } from "./../../../../src/api/user/domain/index";
 
 export * as me from "./me";
@@ -29,7 +30,7 @@ export * as me from "./me";
 export function create
     (
         connection: IConnection,
-        body: __type
+        body: IUserUsecase.Create
     ): Promise<create.Output>
 {
     return Fetcher.fetch
@@ -44,7 +45,7 @@ export function create
 }
 export namespace create
 {
-    export type Input = __type;
+    export type Input = IUserUsecase.Create;
     export type Output = User.ProfileDetail;
 
     export const METHOD = "POST" as const;

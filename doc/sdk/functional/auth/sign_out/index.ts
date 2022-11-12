@@ -7,7 +7,7 @@
 import { Fetcher } from "nestia-fetcher";
 import type { IConnection } from "nestia-fetcher";
 
-import type { __object } from "./../../../../../src/api/auth/presentation/web/auth.controller";
+import type { IResponse } from "./../../../../../src/api/common/interface/response.interface";
 
 /**
  * 로그아웃 API
@@ -35,7 +35,7 @@ export function signOut
 }
 export namespace signOut
 {
-    export type Output = __object;
+    export type Output = IResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/auth/sign-out";

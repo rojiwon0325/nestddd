@@ -8,6 +8,7 @@ import { Fetcher } from "nestia-fetcher";
 import type { IConnection } from "nestia-fetcher";
 import TSON from "typescript-json";
 
+import type { IAuthUsecase } from "./../../../../../src/api/auth/application/port/auth.usecase.port";
 import type { __object } from "./../../../../../src/api/auth/presentation/web/auth.controller";
 
 /**
@@ -28,7 +29,7 @@ import type { __object } from "./../../../../../src/api/auth/presentation/web/au
 export function signIn
     (
         connection: IConnection,
-        body: __type
+        body: IAuthUsecase.SignIn
     ): Promise<signIn.Output>
 {
     return Fetcher.fetch
@@ -43,7 +44,7 @@ export function signIn
 }
 export namespace signIn
 {
-    export type Input = __type;
+    export type Input = IAuthUsecase.SignIn;
     export type Output = __object;
 
     export const METHOD = "POST" as const;
