@@ -66,7 +66,7 @@ describe('AuthUsecase Integration Test', () => {
       const spyPassword = jest.spyOn(service, 'checkPassword');
 
       await expect(() => usecase.signIn(dto)).rejects.toThrowError(
-        ExceptionMessage.NotFound,
+        ExceptionMessage.NF,
       );
       expect(spyPassword).toBeCalledTimes(0);
     });

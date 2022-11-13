@@ -34,7 +34,7 @@ describe('HttpExceptionFactory Unit Test', () => {
   describe('NotFound', () => {
     it('default message', () => {
       const received = HttpExceptionFactory('NotFound');
-      expect(received.message).toBe(ExceptionMessage.NotFound);
+      expect(received.message).toBe(ExceptionMessage.NF);
     });
     it('cutomized message', () => {
       const received = HttpExceptionFactory('NotFound', 'hello');

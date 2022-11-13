@@ -1,4 +1,4 @@
-import { IBaseAggregate } from '@COMMON/interface/base-aggregate.interface';
+import { IBaseAggregate } from '@COMMON/interface';
 
 export namespace User {
   export type Id = number;

@@ -50,7 +50,7 @@ describe('AuthService Integration Test', () => {
       mockRepo.findOne.mockResolvedValue(null);
 
       await expect(() => service.findOne({ id: 12 })).rejects.toThrowError(
-        ExceptionMessage.NotFound,
+        ExceptionMessage.NF,
       );
     });
 

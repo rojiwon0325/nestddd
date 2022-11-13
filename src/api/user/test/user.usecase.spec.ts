@@ -67,7 +67,7 @@ describe('UserUsecase Integration Test', () => {
       mockRepo.findOne.mockResolvedValue(null);
 
       await expect(() => usecase.findOne({ id: 12 })).rejects.toThrowError(
-        ExceptionMessage.NotFound,
+        ExceptionMessage.NF,
       );
     });
     it('대상이 존재할 때', async () => {

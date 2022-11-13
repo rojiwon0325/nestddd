@@ -52,7 +52,7 @@ describe('UserService Integration Test', () => {
       mockRepo.findOne.mockResolvedValue(null);
 
       await expect(() => service.findOne({ id: 12 })).rejects.toThrowError(
-        ExceptionMessage.NotFound,
+        ExceptionMessage.NF,
       );
     });
     it('대상이 존재할 떄', async () => {

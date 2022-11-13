@@ -1,6 +1,5 @@
 import { Auth } from '@AUTH/domain';
-import { AuthPublic } from '@AUTH/provider/decorator/auth-public.decorator';
-import { Public } from '@AUTH/provider/decorator/public.decorator';
+import { AuthPublic, Public } from '@AUTH/provider/decorator';
 import {
   Controller,
   Delete,
