@@ -18,14 +18,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getHandler(),
       context.getClass(),
     ]);
+
     return isPublic ? true : super.canActivate(context);
   }
 
   handleRequest(err: Error, payload: any) {
-    if (err || !payload) {
-      throw HttpExceptionFactory('UnAuthorized');
-    }
-
+    console.log(err, payload);
+    // if (err || !payload) {
+    throw HttpExceptionFactory('UnAuthorized');
+    // }
     return payload;
   }
 }

@@ -21,11 +21,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET,
+      algorithms: ['RS256'],
     };
     super(option);
   }
 
-  async validate(dto: Pick<Auth.State, 'id'>): Promise<Auth.Public> {
+  async validate(dto: Pick<Auth.State, 'id'>): Promise<any> {
+    console.log('check1');
+    return dto;
+
     const { id } = TSON.assert(dto);
     return Auth.getPublic(await this.authService.findOne({ id }));
   }
