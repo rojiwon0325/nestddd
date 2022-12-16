@@ -2,7 +2,7 @@ import { IBaseAggregate } from './base-aggregate.interface';
 
 export interface IBaseRepository<IId, IAggregate extends IBaseAggregate<IId>> {
   readonly findOne: (
-    where: Pick<IAggregate, 'id'>,
+    filter: Pick<IAggregate, 'id'>,
   ) => Promise<IAggregate | null>;
   readonly findMany: () => Promise<IAggregate[]>;
   /**
@@ -11,5 +11,5 @@ export interface IBaseRepository<IId, IAggregate extends IBaseAggregate<IId>> {
    * 존재하는 id에 대해서 입력으로 주어진 데이터만 반환한다.
    */
   readonly save: (aggregate: IAggregate) => Promise<IAggregate>;
-  readonly remove: (where: Pick<IAggregate, 'id'>) => Promise<void>;
+  readonly remove: (filter: Pick<IAggregate, 'id'>) => Promise<void>;
 }

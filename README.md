@@ -21,7 +21,6 @@ DB_PASSWORD
 DB_DATABASE
 
 JWT_SECRET
-JWT_EXPIRESIN
 ```
 
 ### github secrets

@@ -1,16 +1,16 @@
-import { if_not_null, throw_if_null } from '@COMMON/util';
+import { map, throw_if_null } from '@COMMON/util';
 
 describe('Util Function Unit Test', () => {
   const identity = <T>(value: T) => value;
-  describe('if_not_null', () => {
+  describe('map', () => {
     it('if data is null', () => {
-      const received = if_not_null(null, identity);
+      const received = map(null, identity);
 
       expect(received).toBeNull();
     });
 
     it('if data is not null', () => {
-      const received = if_not_null(123, identity);
+      const received = map(123, identity);
 
       expect(received).toBe(123);
     });
