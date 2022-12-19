@@ -11,23 +11,21 @@ export namespace User {
      */
     readonly email: string;
     readonly username: string;
-    readonly permission: Permission;
+    readonly role: Permission;
   }
 
   export type Profile = Pick<State, 'id' | 'username' | 'email'>;
 
-  export type Public = Pick<
-    User.State,
-    'id' | 'email' | 'username' | 'permission'
-  >;
+  export type Public = Pick<User.State, 'id' | 'email' | 'username' | 'role'>;
 }
 
-type Required = keyof Pick<User.State, 'username' | 'email' | 'permission'>;
+type Required = keyof Pick<User.State, 'username' | 'email' | 'role'>;
 type GetArgs = Pick<User.State, Required> & Partial<Omit<User.State, Required>>;
 
 export interface User {
   readonly get: (args: GetArgs) => User.State;
   readonly getPublic: (args: User.State) => User.Public;
+  readonly setRole: (agg: User.State, role: User.Permission) => User.State;
 }
 
 type CheckPermissionArgs = { user: User.Permission; target: User.Permission };
@@ -48,16 +46,20 @@ export const User: User = {
     const {
       username,
       email,
-      permission,
+      role,
       id = 0,
       created_at = now,
       updated_at = now,
     } = args;
-    return { id, created_at, updated_at, username, email, permission };
+    return { id, created_at, updated_at, username, email, role };
   },
   getPublic(args) {
-    const { id, email, username, permission } = args;
-    return { id, email, username, permission };
+    const { id, email, username, role } = args;
+    return { id, email, username, role };
+  },
+  setRole(agg, role) {
+    (agg as any).role = role;
+    return agg;
   },
   checkPermission({ user, target }) {
     const ulevel = permissionLevel[user];
