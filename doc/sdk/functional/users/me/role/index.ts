@@ -8,10 +8,14 @@ import { Fetcher } from "nestia-fetcher";
 import type { IConnection } from "nestia-fetcher";
 import TSON from "typescript-json";
 
+import type { IUserUsecase } from "./../../../../../../src/api/user/application/port/user.usercase.port";
+
 /**
  * 내 권한 수정 API
  * 
  * @tag users
+ * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
+ * @param body 변경할 권한 정보를 포함
  * @returns 아무것도 반환하지 않습니다.
  * @throw 401 로그인이 필요합니다.
  * 
@@ -21,7 +25,8 @@ import TSON from "typescript-json";
  */
 export function setRole
     (
-        connection: IConnection
+        connection: IConnection,
+        body: IUserUsecase.SetRoleBody
     ): Promise<void>
 {
     return Fetcher.fetch
@@ -29,11 +34,14 @@ export function setRole
         connection,
         setRole.ENCRYPTED,
         setRole.METHOD,
-        setRole.path()
+        setRole.path(),
+        body,
+        setRole.stringify
     );
 }
 export namespace setRole
 {
+    export type Input = IUserUsecase.SetRoleBody;
 
     export const METHOD = "PATCH" as const;
     export const PATH: string = "/users/me/role";
