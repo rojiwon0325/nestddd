@@ -39,7 +39,7 @@ export abstract class TypeOrmBaseRepository<
   }
 
   async remove({ id }: Pick<Aggregate, 'id'>): Promise<void> {
-    await this.repository.delete(id);
+    await this.repository.softDelete(id);
     return;
   }
 

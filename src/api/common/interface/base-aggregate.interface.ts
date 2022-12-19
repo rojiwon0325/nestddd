@@ -11,4 +11,8 @@ export interface IBaseAggregate<IId> {
    * 애그리거트 수정일
    */
   readonly updated_at: Date;
+  /**
+   * 애그리거트 삭제일
+   */
+  readonly deleted_at: Date;
 }
