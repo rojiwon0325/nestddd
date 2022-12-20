@@ -31,9 +31,9 @@ export class UserController {
   @Patch('me/role')
   setRole(
     @TypedBody() body: IUserUsecase.SetRoleBody,
-    @Profile() { id }: User.Profile,
+    @Profile() profile: User.Profile,
   ): Promise<void> {
-    const { permission } = body;
-    return this.userUsercase.setRole({ id }, { permission });
+    const { role } = body;
+    return this.userUsercase.setRole(profile, { role });
   }
 }

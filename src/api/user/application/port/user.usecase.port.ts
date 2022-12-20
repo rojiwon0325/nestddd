@@ -6,7 +6,7 @@ export namespace IUserUsecase {
 export interface IUserUsecase {
   readonly me: (profile: User.Profile) => Promise<User.Public>;
   readonly setRole: (
-    filter: Pick<User.State, 'id'>,
+    profile: User.Profile,
     data: Pick<User.State, 'role'>,
   ) => Promise<void>;
 }

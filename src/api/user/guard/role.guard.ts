@@ -35,7 +35,7 @@ export class RoleGuard implements CanActivate {
     if (profile == null) {
       throw HttpExceptionFactory('Forbidden');
     }
-    const { role: user } = await this.userService.findOne({ id: profile.id });
+    const { role: user } = await this.userService.findOne(profile);
 
     return User.checkPermission({ user, target });
   }

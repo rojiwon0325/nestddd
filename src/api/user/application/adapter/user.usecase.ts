@@ -9,15 +9,15 @@ export class UserUsecase implements IUserUsecase {
     private readonly userService: IUserService,
   ) {}
 
-  async me({ id }: User.Profile): Promise<User.Public> {
-    return User.getPublic(await this.userService.findOne({ id }));
+  async me(profile: User.Profile): Promise<User.Public> {
+    return User.getPublic(await this.userService.findOne(profile));
   }
 
   async setRole(
-    { id }: Pick<User.State, 'id'>,
+    profile: User.Profile,
     { role }: Pick<User.State, 'role'>,
   ): Promise<void> {
-    const user = await this.userService.findOne({ id });
+    const user = await this.userService.findOne(profile);
     await this.userService.save(User.setRole(user, role));
     return;
   }
