@@ -1,15 +1,24 @@
-import { UserEntity } from './infrastructure/adapter/user.entity';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntityMapper } from './infrastructure/adapter/user.mapper';
-import { UserRepository } from './infrastructure/adapter/user.repository';
-import { UserService } from './application/adapter/user.service';
-import { UserUsecase } from './application/adapter/user.usecase';
-import { UserController } from './presentation/web/user.controller';
+import { UserController } from './presentation/user.controller';
+import { JwtStrategy } from './guard/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { APP_GUARD } from '@nestjs/core';
+import { UserGuard } from './guard/user.guard';
+import { RoleGuard } from './guard/role.guard';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
-  providers: [UserEntityMapper, UserRepository, UserService, UserUsecase],
+  imports: [PassportModule],
+  providers: [
+    JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: UserGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
+  ],
   controllers: [UserController],
 })
 export class UserModule {}

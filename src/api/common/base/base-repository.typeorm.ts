@@ -3,7 +3,7 @@ import { IEntityMapper } from '../interface/mapper.interface';
 import { IBaseRepository } from '../interface/base-repository.interface';
 import { TypeOrmBaseEntity } from './base-entity.typeorm';
 import { IBaseAggregate } from '@COMMON/interface/base-aggregate.interface';
-import { if_not_null } from '@COMMON/util/if-not-null';
+import { map } from '@COMMON/util/map';
 
 export abstract class TypeOrmBaseRepository<
   Aggregate extends IBaseAggregate<number>,
@@ -17,7 +17,7 @@ export abstract class TypeOrmBaseRepository<
 
   async findOne({ id }: Pick<Aggregate, 'id'>): Promise<Aggregate | null> {
     const where: FindOptionsWhere<unknown> = { id };
-    return if_not_null(
+    return map(
       await this.repository.findOne({ where }),
       this.mapper.toAggregate,
     );
