@@ -21,4 +21,8 @@ export class UserUsecase implements IUserUsecase {
     await this.userService.save(User.setRole(user, role));
     return;
   }
+
+  remove({ id }: User.Profile): Promise<void> {
+    return this.userService.remove({ id });
+  }
 }
