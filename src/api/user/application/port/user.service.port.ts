@@ -29,6 +29,13 @@ export interface IUserService {
     filter: Pick<User.State, 'id'>,
     data: IUserService.UpdateData,
   ) => Promise<void>;
+
+  /**
+   * user soft-delete method
+   * @param filter
+   * @returns
+   */
+  readonly remove: (filter: Pick<User.State, 'id'>) => Promise<void>;
 }
 
 export const IUserService = Symbol('UserService');
