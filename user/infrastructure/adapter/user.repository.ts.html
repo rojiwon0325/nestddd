@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
@@ -107,7 +107,10 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,7 +132,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,7 +161,7 @@
 <span class="cstat-no" title="statement not covered" >import { Injectable } from '@nestjs/common';</span>
 <span class="cstat-no" title="statement not covered" >import { InjectRepository } from '@nestjs/typeorm';</span>
 import { User } from '@USER/domain';
-<span class="cstat-no" title="statement not covered" >import { Repository } from 'typeorm';</span>
+<span class="cstat-no" title="statement not covered" >import { IsNull, Repository } from 'typeorm';</span>
 <span class="cstat-no" title="statement not covered" >import { UserEntity } from '../model/user.entity';</span>
 import { IUserRepository } from '../port';
 <span class="cstat-no" title="statement not covered" >import { aggregate_to_entity, entity_to_aggregate } from './user.mapper';</span>
@@ -168,12 +174,15 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
   ) {}
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>findOne(profile: User.Profile): Promise&lt;User.State | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return map(</span>
-      await this.repository.findOne({
-        where: { id: profile.id },
-      }),
-      entity_to_aggregate(profile),
-    );
+    const user = <span class="cstat-no" title="statement not covered" >await this.repository</span>
+      .createQueryBuilder('user')
+      .withDeleted()
+      .where('user.id = :id', { id: profile.id })
+      .getOne(); // soft-delete된 데이터도 불러온다.
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (user?.deleted_at != null) {</span>
+<span class="cstat-no" title="statement not covered" >      await this.repository.restore(user.id);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return map(user, entity_to_aggregate(profile));</span>
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>save(state: User.State): Promise&lt;User.State&gt; {
@@ -186,7 +195,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
     { id }: Pick&lt;User.State, 'id'&gt;,
     data: Partial&lt;Pick&lt;User.State, 'role'&gt;&gt;,
   ): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    await this.repository.update(id, data);</span>
+<span class="cstat-no" title="statement not covered" >    await this.repository.update({ id, deleted_at: IsNull() }, data); </span>// soft-deleted entity는 update하지 않는다.
 <span class="cstat-no" title="statement not covered" >    return;</span>
   }
 &nbsp;
@@ -202,7 +211,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-22T14:36:25.036Z
+                at 2022-12-22T14:40:57.669Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
