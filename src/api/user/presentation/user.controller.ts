@@ -38,7 +38,7 @@ export class UserController {
   }
 
   @Delete('me')
-  async remove(): Promise<void> {
-    return;
+  remove(@Profile() profile: User.Profile): Promise<void> {
+    return this.userUsercase.remove(profile);
   }
 }

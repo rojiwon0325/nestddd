@@ -2,7 +2,7 @@ import { map } from '@COMMON/util';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@USER/domain';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { UserEntity } from '../model/user.entity';
 import { IUserRepository } from '../port';
 import { aggregate_to_entity, entity_to_aggregate } from './user.mapper';
@@ -15,12 +15,17 @@ export class UserRepository implements IUserRepository {
   ) {}
 
   async findOne(profile: User.Profile): Promise<User.State | null> {
-    return map(
-      await this.repository.findOne({
-        where: { id: profile.id },
-      }),
-      entity_to_aggregate(profile),
-    );
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .withDeleted()
+      .where('user.id = :id', { id: profile.id })
+      .getOne(); // soft-delete된 데이터도 불러온다.
+
+    if (user?.deleted_at != null) {
+      await this.repository.restore(user.id);
+    }
+
+    return map(user, entity_to_aggregate(profile));
   }
 
   async save(state: User.State): Promise<User.State> {
@@ -33,7 +38,7 @@ export class UserRepository implements IUserRepository {
     { id }: Pick<User.State, 'id'>,
     data: Partial<Pick<User.State, 'role'>>,
   ): Promise<void> {
-    await this.repository.update(id, data);
+    await this.repository.update({ id, deleted_at: IsNull() }, data); // soft-deleted entity는 update하지 않는다.
     return;
   }
 

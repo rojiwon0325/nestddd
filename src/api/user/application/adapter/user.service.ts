@@ -28,4 +28,8 @@ export class UserService implements IUserService {
   ): Promise<void> {
     return this.userRepository.update({ id }, data);
   }
+
+  remove({ id }: Pick<User.State, 'id'>): Promise<void> {
+    return this.userRepository.remove({ id });
+  }
 }

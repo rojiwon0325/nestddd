@@ -9,6 +9,8 @@ export interface IUserUsecase {
     profile: User.Profile,
     data: Pick<User.State, 'role'>,
   ) => Promise<void>;
+
+  readonly remove: (profile: User.Profile) => Promise<void>;
 }
 
 export const IUserUsecase = Symbol('UserUsecase');
