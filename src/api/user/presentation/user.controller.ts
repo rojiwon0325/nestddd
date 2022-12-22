@@ -1,11 +1,15 @@
-import { Controller, Get, Patch, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Inject, Patch } from '@nestjs/common';
 import { User } from '@USER/domain';
 import { Profile } from '@USER/decorator';
-import { UserResponseInterceptor } from './user.interceptor';
+import { IUserUsecase } from '@USER/application/port';
+import { TypedBody } from '@nestia/core';
 
-@UseInterceptors(UserResponseInterceptor)
 @Controller('users')
 export class UserController {
+  constructor(
+    @Inject(IUserUsecase)
+    private readonly userUsercase: IUserUsecase,
+  ) {}
   /**
    * 내 프로필 보기 API
    * @tag users
@@ -13,19 +17,23 @@ export class UserController {
    * @throw 401 로그인이 필요합니다.
    */
   @Get('me')
-  async me(@Profile() profile: User.Profile): Promise<User.Public> {
-    return { ...profile, permission: 'Normal' };
+  me(@Profile() profile: User.Profile): Promise<User.Public> {
+    return this.userUsercase.me(profile);
   }
 
   /**
    * 내 권한 수정 API
    * @tag users
+   * @param body 변경할 권한 정보를 포함
    * @returns 아무것도 반환하지 않습니다.
    * @throw 401 로그인이 필요합니다.
    */
   @Patch('me/role')
-  async setRole(@Profile() profile: User.Profile): Promise<void> {
-    // 사용자 정보 수정 usecase
-    return;
+  setRole(
+    @TypedBody() body: IUserUsecase.SetRoleBody,
+    @Profile() { id }: User.Profile,
+  ): Promise<void> {
+    const { permission } = body;
+    return this.userUsercase.setRole({ id }, { permission });
   }
 }
