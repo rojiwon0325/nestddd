@@ -19,7 +19,7 @@ export namespace User {
   export type Public = Pick<User.State, 'id' | 'email' | 'username' | 'role'>;
 }
 
-type Required = keyof Pick<User.State, 'username' | 'email' | 'role'>;
+type Required = keyof Pick<User.State, 'id' | 'username' | 'email'>;
 type GetArgs = Pick<User.State, Required> & Partial<Omit<User.State, Required>>;
 
 export interface User {
@@ -46,8 +46,8 @@ export const User: User = {
     const {
       username,
       email,
-      role,
-      id = 0,
+      role = 'Normal',
+      id,
       created_at = now,
       updated_at = now,
     } = args;

@@ -1,24 +1,25 @@
 import { User } from '@USER/domain';
+import { IUserRepository } from '@USER/infrastructure/port';
 
 export namespace IUserService {
-  export type UpdateData = Partial<
-    Pick<User.State, 'email' | 'username' | 'role'>
-  >;
+  export type UpdateData = IUserRepository.UpdateData;
 }
 
 export interface IUserService {
   /**
-   * filter에 해당하는 앤티티를 찾고 없으면 생성한다.
-   * @param filter 특정 앤티티를 찾기 위한 기준
+   * profile에 대응하는 데이터를 반환
+   * soft-delete된 상태면 복구
+   * 존재하지 않으면 생성
+   * @param profile 사용자 프로필 정보
    * @returns 애그리거트 상태 정보
    */
-  readonly findOne: (filter: Pick<User.State, 'id'>) => Promise<User.State>;
+  readonly findOne: (profile: User.Profile) => Promise<User.State>;
   /**
    * 인자로 전달받은 애그리거트 상태 정보를 영속화한다.
-   * @param agg 수정된 애그리거트 상태 정보
+   * @param state 수정된 애그리거트 상태 정보
    * @returns 수정한 애그리거트 상태 정보
    */
-  readonly save: (agg: User.State) => Promise<User.State>;
+  readonly save: (state: User.State) => Promise<User.State>;
   /**
    * filter에 해당하는 애그리거트 앤티티(들)에 data 정보 적용
    * @param filter 특정 앤티티를 찾기 위한 기준

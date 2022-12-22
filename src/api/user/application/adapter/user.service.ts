@@ -1,19 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@USER/domain';
+import { IUserRepository } from '@USER/infrastructure/port';
 import { IUserService } from '../port';
 
 @Injectable()
 export class UserService implements IUserService {
-  async findOne(filter: Pick<User.State, 'id'>): Promise<User.State> {
-    throw Error();
+  constructor(
+    @Inject(IUserRepository)
+    private readonly userRepository: IUserRepository,
+  ) {}
+
+  async findOne(profile: User.Profile): Promise<User.State> {
+    const user = await this.userRepository.findOne(profile);
+    if (user == null) {
+      return this.userRepository.save(User.get(profile));
+    }
+    return user;
   }
-  async save(agg: User.State): Promise<User.State> {
-    throw Error();
+
+  save(state: User.State): Promise<User.State> {
+    return this.userRepository.save(state);
   }
-  async update(
-    filter: Pick<User.State, 'id'>,
+
+  update(
+    { id }: Pick<User.State, 'id'>,
     data: IUserService.UpdateData,
   ): Promise<void> {
-    return;
+    return this.userRepository.update({ id }, data);
   }
 }
