@@ -103,7 +103,7 @@
             "nullable": false,
             "x-typia-required": true
           },
-          "permission": {
+          "role": {
             "type": "string",
             "enum": [
               "Admin",
@@ -119,14 +119,14 @@
           "id",
           "email",
           "username",
-          "permission"
+          "role"
         ],
         "x-typia_jsDocTags": []
       },
       "IUserUsecase.SetRoleBody": {
         "type": "object",
         "properties": {
-          "permission": {
+          "role": {
             "type": "string",
             "enum": [
               "Admin",
@@ -139,7 +139,7 @@
         },
         "nullable": false,
         "required": [
-          "permission"
+          "role"
         ],
         "x-typia_jsDocTags": []
       }
