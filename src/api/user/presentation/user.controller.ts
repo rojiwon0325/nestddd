@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Patch } from '@nestjs/common';
+import { Controller, Delete, Get, Inject, Patch } from '@nestjs/common';
 import { User } from '@USER/domain';
 import { Profile } from '@USER/decorator';
 import { IUserUsecase } from '@USER/application/port';
@@ -35,5 +35,15 @@ export class UserController {
   ): Promise<void> {
     const { role } = body;
     return this.userUsercase.setRole(profile, { role });
+  }
+
+  /**
+   * user delete API
+   * @tag users
+   * @returns
+   */
+  @Delete('me')
+  async remove(): Promise<void> {
+    return;
   }
 }
