@@ -33,6 +33,18 @@
           }
         },
         "description": "내 프로필 보기 API"
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "description": "user delete API"
       }
     },
     "/users/me/role": {
