@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IBaseAggregate } from '../interface/base-aggregate.interface';
+import { IBaseAggregate } from '../interface';
 
 @Entity()
 export abstract class TypeOrmBaseEntity implements IBaseAggregate<number> {
