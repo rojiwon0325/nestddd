@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -130,9 +130,9 @@
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,6 +182,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -210,23 +214,21 @@ export namespace User {
      */
     readonly email: string;
     readonly username: string;
-    readonly permission: Permission;
+    readonly role: Permission;
   }
 &nbsp;
   export type Profile = Pick&lt;State, 'id' | 'username' | 'email'&gt;;
 &nbsp;
-  export type Public = Pick&lt;
-    User.State,
-    'id' | 'email' | 'username' | 'permission'
-  &gt;;
+  export type Public = Pick&lt;User.State, 'id' | 'email' | 'username' | 'role'&gt;;
 }
 &nbsp;
-type Required = keyof Pick&lt;User.State, 'username' | 'email' | 'permission'&gt;;
+type Required = keyof Pick&lt;User.State, 'username' | 'email' | 'role'&gt;;
 type GetArgs = Pick&lt;User.State, Required&gt; &amp; Partial&lt;Omit&lt;User.State, Required&gt;&gt;;
 &nbsp;
 export interface User {
   readonly get: (args: GetArgs) =&gt; User.State;
   readonly getPublic: (args: User.State) =&gt; User.Public;
+  readonly setRole: (agg: User.State, role: User.Permission) =&gt; User.State;
 }
 &nbsp;
 type CheckPermissionArgs = { user: User.Permission; target: User.Permission };
@@ -247,16 +249,20 @@ export const <span class="cstat-no" title="statement not covered" >User: User = 
     const {
       username,
       email,
-      permission,
+      role,
       id = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span>
       created_at = <span class="branch-0 cbranch-no" title="branch not covered" >now,</span>
       updated_at = <span class="branch-0 cbranch-no" title="branch not covered" >now,</span>
     } = <span class="cstat-no" title="statement not covered" >args;</span>
-<span class="cstat-no" title="statement not covered" >    return { id, created_at, updated_at, username, email, permission };</span>
+<span class="cstat-no" title="statement not covered" >    return { id, created_at, updated_at, username, email, role };</span>
   },
 <span class="fstat-no" title="function not covered" >  getPublic(</span>args) {
-    const { id, email, username, permission } = <span class="cstat-no" title="statement not covered" >args;</span>
-<span class="cstat-no" title="statement not covered" >    return { id, email, username, permission };</span>
+    const { id, email, username, role } = <span class="cstat-no" title="statement not covered" >args;</span>
+<span class="cstat-no" title="statement not covered" >    return { id, email, username, role };</span>
+  },
+<span class="fstat-no" title="function not covered" >  setRole(</span>agg, role) {
+    (<span class="cstat-no" title="statement not covered" >agg as any).role = role;</span>
+<span class="cstat-no" title="statement not covered" >    return agg;</span>
   },
 <span class="fstat-no" title="function not covered" >  checkPermission(</span>{ user, target }) {
     const ulevel = <span class="cstat-no" title="statement not covered" >permissionLevel[user];</span>
@@ -271,7 +277,7 @@ export const <span class="cstat-no" title="statement not covered" >User: User = 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-22T11:20:01.540Z
+                at 2022-12-22T11:22:13.287Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
