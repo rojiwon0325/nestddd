@@ -1,6 +1,5 @@
 import { APP_GUARD } from '@nestjs/core';
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,17 +14,7 @@ import { AuthController } from './presentation/web/auth.controller';
 
 @Global()
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserEntity]),
-    PassportModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService<IEnv, true>) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: configService.get('JWT_EXPIRESIN') },
-      }),
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([UserEntity]), PassportModule, JwtModule],
   providers: [
     AuthRepository,
     JwtStrategy,
