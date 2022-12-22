@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for user/infrastructure/port/user.repository.port.ts</title>
+    <title>Code coverage report for user/infrastructure/adapter/user.mapper.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">user/infrastructure/port</a> user.repository.port.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">user/infrastructure/adapter</a> user.mapper.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -79,41 +79,38 @@
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { User } from '@USER/domain';
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { User } from '@USER/domain';</span>
+<span class="cstat-no" title="statement not covered" >import { UserEntity } from '../model/user.entity';</span>
 &nbsp;
-export namespace IUserRepository {
-  export type UpdateData = Partial&lt;Pick&lt;User.State, 'role'&gt;&gt;;
-}
+export const <span class="cstat-no" title="statement not covered" >entity_to_aggregate =</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  (p</span>rofile: User.Profile) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>ntity: UserEntity) =&gt; {</span></span>
+    const { created_at, updated_at, role, id } = <span class="cstat-no" title="statement not covered" >entity;</span>
+    const { email, username } = <span class="cstat-no" title="statement not covered" >profile;</span>
+<span class="cstat-no" title="statement not covered" >    return User.get({ id, email, username, role, created_at, updated_at });</span>
+  };
 &nbsp;
-export interface IUserRepository {
-  readonly findOne: (profile: User.Profile) =&gt; Promise&lt;User.State | null&gt;;
-  readonly save: (state: User.State) =&gt; Promise&lt;User.State&gt;;
-  readonly update: (
-    filter: Pick&lt;User.State, 'id'&gt;,
-    data: IUserRepository.UpdateData,
-  ) =&gt; Promise&lt;void&gt;;
-  readonly remove: (filter: Pick&lt;User.State, 'id'&gt;) =&gt; Promise&lt;void&gt;;
-}
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >IUserRepository = Symbol('UserRepository');</span>
+export const <span class="cstat-no" title="statement not covered" >aggregate_to_entity = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>s</span>tate: User.State) =&gt; {</span>
+  const entity = <span class="cstat-no" title="statement not covered" >new UserEntity();</span>
+<span class="cstat-no" title="statement not covered" >  entity.id = state.id;</span>
+<span class="cstat-no" title="statement not covered" >  entity.role = state.role;</span>
+<span class="cstat-no" title="statement not covered" >  return entity;</span>
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
