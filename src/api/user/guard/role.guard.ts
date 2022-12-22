@@ -8,10 +8,15 @@ import {
 import { HttpExceptionFactory } from '@COMMON/exception';
 import { User } from '../domain';
 import { ROLE_KEY } from './constant';
+import { IUserService } from '@USER/application/port';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
+  constructor(
+    private readonly reflector: Reflector,
+    @Inject(IUserService)
+    private readonly userService: IUserService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const target = this.reflector.getAllAndOverride<User.Permission>(ROLE_KEY, [
@@ -30,9 +35,8 @@ export class RoleGuard implements CanActivate {
     if (profile == null) {
       throw HttpExceptionFactory('Forbidden');
     }
+    const { role: user } = await this.userService.findOne({ id: profile.id });
 
-    // const { role: user } = await this.userService.findOne({ id: profile.id });
-
-    return User.checkPermission({ user: 'Normal', target });
+    return User.checkPermission({ user, target });
   }
 }

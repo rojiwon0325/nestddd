@@ -8,7 +8,7 @@ import { Fetcher } from "nestia-fetcher";
 import type { IConnection } from "nestia-fetcher";
 import TSON from "typescript-json";
 
-import type { IUserUsecase } from "./../../../../../../src/api/user/application/port/user.usercase.port";
+import type { IUserUsecase } from "../../../../../../src/api/user/application/port/user.usecase.port";
 
 /**
  * 내 권한 수정 API
