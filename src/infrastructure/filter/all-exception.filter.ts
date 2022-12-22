@@ -32,14 +32,13 @@ const getMessageInHttpException = (exception: HttpException): string => {
   const message = exception.message;
   if (
     exception.name === 'BadRequestException' &&
-    message === 'Request message is not following the promised type.'
+    /(?=.*^Request )(?=.* is not following the promised type.$)/.test(message)
   ) {
     // tson error
     const response = exception.getResponse() as any;
-    const reason = response.reason as string | null;
-    return `${
-      reason ? reason.split(/(\$input.)(.*?)(, )/g)[2] + ' ' : ''
-    }입력값이 잘못되었습니다.`;
+    const target = (response.path as string).replace('$input.', '');
+    const expected = response.expected as string;
+    return `${target}이 ${expected}형식과 맞지 않습니다.`;
   }
   return message;
 };
