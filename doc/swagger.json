@@ -11,466 +11,69 @@
     "title": "NestDDD - nestjs template designed DDD"
   },
   "paths": {
-    "/auth/sign-in": {
-      "post": {
-        "tags": [
-          "auth",
-          "public"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "로그인에 사용되는 이메일과 비밀번호를 포함한다",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IAuthUsecase.SignIn"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "access_token 전달, 해당 토큰은 쿠키에도 저장됨",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/__object"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "비밀번호가 일치하지 않거나 이메일 인증이 완료되지 않은 경우"
-          },
-          "404": {
-            "description": "존재하지 않는 사용자인 경우"
-          }
-        },
-        "description": "사용자 로그인 API"
-      }
-    },
-    "/auth/sign-out": {
-      "get": {
-        "tags": [
-          "auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "로그아웃 API\n사용자 쿠키에 있는 토큰을 제거한다.\n추후에 별도의 인증서버를 연동할 경우, 해당 인증서버에 로그아웃 요청을 보낸다."
-      }
-    },
-    "/users": {
-      "post": {
-        "tags": [
-          "user",
-          "public"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "사용자 계정 정보 전달",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IUserUsecase.Create"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "생성된 사용자의 세부 프로필 정보 응답",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User.ProfileDetail"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "email duplicate"
-          }
-        },
-        "description": "사용자 회원가입 API"
-      }
-    },
     "/users/me": {
       "get": {
         "tags": [
-          "user"
+          "users"
         ],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "사용자 상세 프로필 정보",
+            "description": "계정 정보와 사용자 권한 정보 등을 전달",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User.ProfileDetail"
+                  "$ref": "#/components/schemas/User.Public"
                 }
               }
             }
           },
-          "404": {
-            "description": "사용자가 존재하지 않는 경우"
+          "401": {
+            "description": "로그인이 필요합니다."
           }
         },
-        "description": "내 정보 보기 API"
-      },
-      "patch": {
-        "tags": [
-          "user"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "변경할 정보만 포함",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IUserUsecase.Update"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "변경된 사용자 프로필 정보",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User.ProfileDetail"
-                }
-              }
-            }
-          }
-        },
-        "description": "내 프로필 정보 수정 API"
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "삭제된 계정 id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/__type"
-                }
-              }
-            }
-          }
-        },
-        "description": "내 계정 삭제 API"
+        "description": "내 프로필 보기 API"
       }
     },
-    "/users/{user_id}": {
-      "get": {
+    "/users/me/role": {
+      "patch": {
         "tags": [
-          "user",
-          "public"
+          "users"
         ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "description": "사용자 id",
-            "schema": {
-              "type": "number",
-              "nullable": false
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "responses": {
-          "200": {
-            "description": "사용자 공개 프로필 정보",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User.Profile"
-                }
-              }
-            }
+          "201": {
+            "description": "아무것도 반환하지 않습니다."
+          },
+          "401": {
+            "description": "로그인이 필요합니다."
           }
         },
-        "description": "사용자 조회 API"
+        "description": "내 권한 수정 API"
       }
     }
   },
   "components": {
     "schemas": {
-      "IAuthUsecase.SignIn": {
+      "User.Public": {
         "type": "object",
         "properties": {
-          "email": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-metaTags": [
-              {
-                "kind": "format",
-                "value": "email"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "email",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "nullable": false,
-            "description": "비밀번호는 숫자와 문자로이루어진 6이상 20자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,20}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,20}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "pattern": "^\\w{6,20}$"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "email",
-          "password"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "__object": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "number",
-            "nullable": false,
-            "x-tson-required": true
-          },
-          "access_token": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "status",
-          "access_token"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "IResponse": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "number",
-            "nullable": false,
-            "x-tson-required": true
-          },
-          "message": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "statusCode",
-          "message"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "IUserUsecase.Create": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-metaTags": [
-              {
-                "kind": "format",
-                "value": "email"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "email",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "nullable": false,
-            "description": "비밀번호는 숫자와 문자로이루어진 6이상 20자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,20}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,20}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "pattern": "^\\w{6,20}$"
-          },
-          "username": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,15}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,15}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "pattern": "^\\w{6,15}$"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "email",
-          "password",
-          "username"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "User.ProfileDetail": {
-        "type": "object",
-        "properties": {
-          "bio": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-required": false
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자 전화번호",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^010-\\d{4}-\\d{4}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^010-\\d{4}-\\d{4}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": false,
-            "pattern": "^010-\\d{4}-\\d{4}$"
-          },
-          "birth": {
-            "type": "string",
-            "nullable": false,
-            "description": "태어난 날짜 정보\nYYYY-MM-DD 형식",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": false,
-            "pattern": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
-          },
           "id": {
             "type": "number",
             "nullable": false,
             "description": "애그리거트의 id",
-            "x-tson-required": true
+            "x-typia-required": true
           },
           "email": {
             "type": "string",
             "nullable": false,
-            "x-tson-metaTags": [
+            "x-typia-metaTags": [
               {
                 "kind": "format",
                 "value": "email"
               }
             ],
-            "x-tson-jsDocTags": [
+            "x-typia-jsDocTags": [
               {
                 "name": "format",
                 "text": [
@@ -481,10 +84,15 @@
                 ]
               }
             ],
-            "x-tson-required": true,
+            "x-typia-required": true,
             "format": "email"
           },
-          "role": {
+          "username": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "permission": {
             "type": "string",
             "enum": [
               "Admin",
@@ -492,204 +100,17 @@
               "Normal"
             ],
             "nullable": false,
-            "x-tson-required": true
-          },
-          "verified": {
-            "type": "boolean",
-            "nullable": false,
-            "description": "이메일 인증 여부",
-            "x-tson-required": true
-          },
-          "username": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,15}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,15}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "pattern": "^\\w{6,15}$"
+            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
           "id",
           "email",
-          "role",
-          "verified",
-          "username"
+          "username",
+          "permission"
         ],
-        "x-tson_jsDocTags": []
-      },
-      "User.Profile": {
-        "type": "object",
-        "properties": {
-          "bio": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-required": false
-          },
-          "id": {
-            "type": "number",
-            "nullable": false,
-            "description": "애그리거트의 id",
-            "x-tson-required": true
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "Admin",
-              "Manager",
-              "Normal"
-            ],
-            "nullable": false,
-            "x-tson-required": true
-          },
-          "username": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,15}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,15}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": true,
-            "pattern": "^\\w{6,15}$"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "role",
-          "username"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "IUserUsecase.Update": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자명은 숫자와 문자로이루어진 6이상 15자리 이하의 문자열입니다.",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\w{6,15}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\w{6,15}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": false,
-            "pattern": "^\\w{6,15}$"
-          },
-          "bio": {
-            "type": "string",
-            "nullable": false,
-            "x-tson-required": false
-          },
-          "birth": {
-            "type": "string",
-            "nullable": false,
-            "description": "태어난 날짜 정보\nYYYY-MM-DD 형식",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": false,
-            "pattern": "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자 전화번호",
-            "x-tson-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^010-\\d{4}-\\d{4}$"
-              }
-            ],
-            "x-tson-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^010-\\d{4}-\\d{4}$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-tson-required": false,
-            "pattern": "^010-\\d{4}-\\d{4}$"
-          }
-        },
-        "nullable": false,
-        "x-tson_jsDocTags": []
-      },
-      "__type": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "nullable": false,
-            "x-tson-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id"
-        ],
-        "x-tson_jsDocTags": []
+        "x-typia_jsDocTags": []
       }
     }
   }
