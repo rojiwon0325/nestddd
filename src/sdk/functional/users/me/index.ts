@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { User } from "./../../../../../src/api/user/domain/index";
+import type { IUserAggregate } from "./../../../../interface/user/domain/index";
 
 export * as role from "./role";
 
@@ -37,7 +37,7 @@ export function me
 }
 export namespace me
 {
-    export type Output = User.Public;
+    export type Output = IUserAggregate.Public;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/me";

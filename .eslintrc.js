@@ -17,6 +17,7 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js', '*.config.js', '*.config.ts'],
   rules: {
+    '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',

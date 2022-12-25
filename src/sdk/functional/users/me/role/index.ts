@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IUserUsecase } from "./../../../../../../src/api/user/application/port/user.usecase.port";
+import type { IUserController } from "./../../../../../interface/user/presentation/index";
 
 /**
  * 내 권한 수정 API
@@ -26,7 +26,7 @@ import type { IUserUsecase } from "./../../../../../../src/api/user/application/
 export function setRole
     (
         connection: IConnection,
-        body: IUserUsecase.SetRoleBody
+        body: IUserController.SetRoleBody
     ): Promise<void>
 {
     return Fetcher.fetch
@@ -41,7 +41,7 @@ export function setRole
 }
 export namespace setRole
 {
-    export type Input = IUserUsecase.SetRoleBody;
+    export type Input = IUserController.SetRoleBody;
 
     export const METHOD = "PATCH" as const;
     export const PATH: string = "/users/me/role";
