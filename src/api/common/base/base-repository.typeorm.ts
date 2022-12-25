@@ -1,9 +1,11 @@
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { TypeOrmBaseEntity } from './base-entity.typeorm';
 import { map } from '../util';
-import { IEntityMapper } from '../interface';
-import { IBaseRepository } from '../interface';
-import { IBaseAggregate } from '../interface';
+import {
+  IBaseAggregate,
+  IBaseRepository,
+  IEntityMapper,
+} from '@INTERFACE/common';
 
 export abstract class TypeOrmBaseRepository<
   Aggregate extends IBaseAggregate<number>,

@@ -1,8 +1,9 @@
 import { Controller, Delete, Get, Inject, Patch } from '@nestjs/common';
-import { User } from '@USER/domain';
 import { Profile } from '@USER/decorator';
-import { IUserUsecase } from '@USER/application/port';
 import { TypedBody } from '@nestia/core';
+import { IUserUsecase } from '@INTERFACE/user/application';
+import { IUserAggregate } from '@INTERFACE/user/domain';
+import { IUserController } from '@INTERFACE/user/presentation';
 
 @Controller('users')
 export class UserController {
@@ -17,7 +18,9 @@ export class UserController {
    * @throw 401 로그인이 필요합니다.
    */
   @Get('me')
-  me(@Profile() profile: User.Profile): Promise<User.Public> {
+  me(
+    @Profile() profile: IUserAggregate.Profile,
+  ): Promise<IUserAggregate.Public> {
     return this.userUsecase.me(profile);
   }
 
@@ -30,8 +33,8 @@ export class UserController {
    */
   @Patch('me/role')
   setRole(
-    @TypedBody() body: IUserUsecase.SetRoleBody,
-    @Profile() profile: User.Profile,
+    @TypedBody() body: IUserController.SetRoleBody,
+    @Profile() profile: IUserAggregate.Profile,
   ): Promise<void> {
     const { role } = body;
     return this.userUsecase.setRole(profile, { role });
@@ -43,7 +46,7 @@ export class UserController {
    * @returns
    */
   @Delete('me')
-  remove(@Profile() profile: User.Profile): Promise<void> {
+  remove(@Profile() profile: IUserAggregate.Profile): Promise<void> {
     return this.userUsecase.remove(profile);
   }
 }
