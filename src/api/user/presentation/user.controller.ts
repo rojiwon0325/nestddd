@@ -8,7 +8,7 @@ import { TypedBody } from '@nestia/core';
 export class UserController {
   constructor(
     @Inject(IUserUsecase)
-    private readonly userUsercase: IUserUsecase,
+    private readonly userUsecase: IUserUsecase,
   ) {}
   /**
    * 내 프로필 보기 API
@@ -18,7 +18,7 @@ export class UserController {
    */
   @Get('me')
   me(@Profile() profile: User.Profile): Promise<User.Public> {
-    return this.userUsercase.me(profile);
+    return this.userUsecase.me(profile);
   }
 
   /**
@@ -34,7 +34,7 @@ export class UserController {
     @Profile() profile: User.Profile,
   ): Promise<void> {
     const { role } = body;
-    return this.userUsercase.setRole(profile, { role });
+    return this.userUsecase.setRole(profile, { role });
   }
 
   /**
@@ -44,6 +44,6 @@ export class UserController {
    */
   @Delete('me')
   remove(@Profile() profile: User.Profile): Promise<void> {
-    return this.userUsercase.remove(profile);
+    return this.userUsecase.remove(profile);
   }
 }
