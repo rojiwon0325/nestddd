@@ -8,6 +8,7 @@
   },
   "moduleNameMapper": {
     "^src/(.*)$": "<rootDir>/../src/$1",
+    "@INTERFACE/(.*)$":"<rootDir>/../src/interface/$1",
     "@COMMON/(.*)$": "<rootDir>/../src/api/common/$1",
     "@USER/(.*)$": "<rootDir>/../src/api/user/$1"
   }

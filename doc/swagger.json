@@ -23,7 +23,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User.Public"
+                  "$ref": "#/components/schemas/IUserAggregate.Public"
                 }
               }
             }
@@ -58,7 +58,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IUserUsecase.SetRoleBody"
+                "$ref": "#/components/schemas/IUserController.SetRoleBody"
               }
             }
           },
@@ -78,7 +78,7 @@
   },
   "components": {
     "schemas": {
-      "User.Public": {
+      "IUserAggregate.Public": {
         "type": "object",
         "properties": {
           "id": {
@@ -135,7 +135,7 @@
         ],
         "x-typia_jsDocTags": []
       },
-      "IUserUsecase.SetRoleBody": {
+      "IUserController.SetRoleBody": {
         "type": "object",
         "properties": {
           "role": {
