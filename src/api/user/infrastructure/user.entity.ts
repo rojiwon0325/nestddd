@@ -1,4 +1,4 @@
-import { User } from '@USER/domain';
+import { IUserAggregate } from '@INTERFACE/user/domain';
 import {
   Entity,
   CreateDateColumn,
@@ -14,7 +14,7 @@ export class UserEntity {
   id!: number;
 
   @Column({ default: 'Normal' })
-  role!: User.Permission;
+  role!: IUserAggregate.Permission;
 
   @CreateDateColumn()
   created_at!: Date;

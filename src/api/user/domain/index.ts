@@ -1,46 +1,12 @@
-import { IBaseAggregate } from '@COMMON/interface';
+import { IUserAggregate } from '@INTERFACE/user/domain';
 
-export namespace User {
-  export type Id = number;
-
-  export type Permission = 'Admin' | 'Manager' | 'Normal';
-
-  export interface State extends IBaseAggregate<Id> {
-    /**
-     * @format email
-     */
-    readonly email: string;
-    readonly username: string;
-    readonly role: Permission;
-  }
-
-  export type Profile = Pick<State, 'id' | 'username' | 'email'>;
-
-  export type Public = Pick<User.State, 'id' | 'email' | 'username' | 'role'>;
-}
-
-type Required = keyof Pick<User.State, 'id' | 'username' | 'email'>;
-type GetArgs = Pick<User.State, Required> & Partial<Omit<User.State, Required>>;
-
-export interface User {
-  readonly get: (args: GetArgs) => User.State;
-  readonly getPublic: (args: User.State) => User.Public;
-  readonly setRole: (agg: User.State, role: User.Permission) => User.State;
-}
-
-type CheckPermissionArgs = { user: User.Permission; target: User.Permission };
-
-export interface User {
-  readonly checkPermission: (args: CheckPermissionArgs) => boolean;
-}
-
-const permissionLevel: { [key in User.Permission]: number } = {
+const permissionLevel: { [key in IUserAggregate.Permission]: number } = {
   Admin: 0,
   Manager: 1,
   Normal: 2,
 };
 
-export const User: User = {
+export const UserAggregate: IUserAggregate = {
   get(args) {
     const now = new Date();
     const {

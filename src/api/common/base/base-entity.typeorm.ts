@@ -1,3 +1,4 @@
+import { IBaseAggregate } from '@INTERFACE/common';
 import {
   CreateDateColumn,
   DeleteDateColumn,
@@ -5,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IBaseAggregate } from '../interface';
 
 @Entity()
 export abstract class TypeOrmBaseEntity implements IBaseAggregate<number> {
